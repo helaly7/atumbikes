@@ -138,6 +138,7 @@ a.card{display:block;text-decoration:none}
 .sw{margin:18px 0 0}.sw b{font-weight:600}.sw div{display:flex;gap:10px;margin-top:8px}.sw button{width:32px;height:32px;border-radius:50%;border:2px solid var(--line);cursor:pointer;padding:0}.sw button[aria-pressed="true"]{outline:2px solid var(--ink);outline-offset:2px}
 .badge.lt{background:#fff;border-color:var(--line);min-width:132px;justify-content:center;height:40px}
 .badge.lt img.bl{height:26px;width:auto;filter:none}.badge.lt img.rockshox{height:32px}
+.badge.lt img.kenda{height:22px}
 .badge.lt img.shimano{height:18px}.badge.lt img.kmc{height:30px}
 .bgal{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
 .bgal button{border:0;padding:0;border-radius:6px;overflow:hidden;cursor:zoom-in;position:relative;background:var(--surface);aspect-ratio:3/2}
@@ -443,8 +444,8 @@ const BIKES=[
 const $=s=>document.querySelector(s);
 const fmt=n=>'$'+n.toLocaleString('en-US');
 const pt=b=>b.price?fmt(b.price):'Ask for price';
-const LG={deore:'images/img67-a178861d.png',rockshox:'images/img68-2652bed9.png',kmc:'images/img69-53172c08.png',alexrims:'images/img70-d819a047.png',novatec:'images/img71-ea976569.png',hollowtech:'images/img72-f322ae18.png',wellgo:'images/img73-9a80bdda.png',kenda:'images/img74-1350fc58.png',shimano:'images/img75-316c51a8.png',tektro:'images/img76-f35b2076.png',joytech:'images/img77-a1b10cc9.png'};
-const LT={shimano:1,deore:1,rockshox:1,kmc:1,alexrims:1,novatec:1,hollowtech:1,wellgo:1};
+const LG={deore:'images/img67-a178861d.png',rockshox:'images/img68-2652bed9.png',kmc:'images/img69-53172c08.png',alexrims:'images/img70-d819a047.png',novatec:'images/img71-ea976569.png',hollowtech:'images/img72-f322ae18.png',wellgo:'images/img73-9a80bdda.png',kenda:'images/img74-41a60cef.png',shimano:'images/img75-316c51a8.png',tektro:'images/img76-f35b2076.png',joytech:'images/img77-a1b10cc9.png'};
+const LT={kenda:1,shimano:1,deore:1,rockshox:1,kmc:1,alexrims:1,novatec:1,hollowtech:1,wellgo:1};
 const NM={shimano:'Shimano',tektro:'Tektro',joytech:'Joytech',kenda:'Kenda',deore:'Shimano Deore',rockshox:'RockShox',alexrims:'AlexRims',hollowtech:'Hollowtech',jagwire:'JagWire',xspark:'X-Spark',kmc:'KMC',suntour:'SR Suntour',prowheel:'Prowheel',tecpwr:'TEC PWR',neco:'Neco',novatec:'Novatec',continental:'Continental',selleroyal:'Selle Royal',wellgo:'Wellgo'};
 const LOGO=document.querySelector('.logo img').src;
 const badge=k=>!k?`<span class="badge" aria-label="Brand not listed" style="color:var(--muted)">—</span>`:k==='atum'?`<span class="badge"><img loading="lazy" src="${LOGO}" alt="ATUM"></span>`:LT[k]?`<span class="badge lt"><img loading="lazy" class="bl ${k}" src="${LG[k]}" alt="${NM[k]}"></span>`:LG[k]?`<span class="badge dk"><img loading="lazy" class="bl ${k}" src="${LG[k]}" alt="${NM[k]}"></span>`:`<span class="badge dk" style="color:#fff;font:700 13px var(--disp);letter-spacing:.06em">${NM[k].toUpperCase()}</span>`;
