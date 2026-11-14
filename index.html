@@ -116,6 +116,8 @@ dt{color:var(--muted)}dd{margin:0}
 .badge.dk{background:#121212;border-color:#121212;min-width:132px;justify-content:center;height:40px}
 .badge img.bl{height:auto;filter:none}
 .bl.kenda{width:92px}
+.bl.jagwire{width:104px}
+.bl.suntour{width:118px}
 .bl.tektro{width:110px}.bl.shimano{width:96px}.bl.tektro{width:104px}.bl.joytech{width:68px}
 @media (prefers-color-scheme:dark){.badge:not(.dk):not(.lt) img{filter:brightness(0) invert(1)}}
 a.card{display:block;text-decoration:none}
@@ -142,6 +144,7 @@ a.card{display:block;text-decoration:none}
 .sw{margin:18px 0 0}.sw b{font-weight:600}.sw div{display:flex;gap:10px;margin-top:8px}.sw button{width:32px;height:32px;border-radius:50%;border:2px solid var(--line);cursor:pointer;padding:0}.sw button[aria-pressed="true"]{outline:2px solid var(--ink);outline-offset:2px}
 .badge.lt{background:#fff;border-color:var(--line);min-width:132px;justify-content:center;height:40px}
 .badge.lt img.bl{height:26px;width:auto;filter:none}.badge.lt img.rockshox{height:32px}
+.badge.lt img.tecpwr{height:38px}
 .badge.lt img.continental{height:30px}
 .badge.lt img.neco{height:26px}
 .badge.lt img.selleroyal{height:36px}
@@ -454,8 +457,8 @@ const BIKES=[
 const $=s=>document.querySelector(s);
 const fmt=n=>'$'+n.toLocaleString('en-US');
 const pt=b=>b.price?fmt(b.price):'Ask for price';
-const LG={continental:'images/img67-9ac5c254.png',neco:'images/img68-946bdaa3.png',selleroyal:'images/img69-2d24828f.png',prowheel:'images/img70-a9ace07b.png',deore:'images/img71-a178861d.png',rockshox:'images/img72-2652bed9.png',kmc:'images/img73-53172c08.png',alexrims:'images/img74-d819a047.png',novatec:'images/img75-6cd02c05.png',hollowtech:'images/img76-f322ae18.png',wellgo:'images/img77-9a80bdda.png',kenda:'images/img78-41a60cef.png',shimano:'images/img79-316c51a8.png',tektro:'images/img80-a11ab07f.png',joytech:'images/img81-3acd901b.png'};
-const LT={continental:1,neco:1,selleroyal:1,prowheel:1,joytech:1,kenda:1,shimano:1,deore:1,rockshox:1,kmc:1,alexrims:1,novatec:1,hollowtech:1,wellgo:1};
+const LG={tecpwr:'images/img67-efe24db5.png',jagwire:'images/img68-411b1051.png',suntour:'images/img69-a53917bd.png',continental:'images/img70-9ac5c254.png',neco:'images/img71-946bdaa3.png',selleroyal:'images/img72-2d24828f.png',prowheel:'images/img73-a9ace07b.png',deore:'images/img74-a178861d.png',rockshox:'images/img75-2652bed9.png',kmc:'images/img76-53172c08.png',alexrims:'images/img77-d819a047.png',novatec:'images/img78-6cd02c05.png',hollowtech:'images/img79-f322ae18.png',wellgo:'images/img80-9a80bdda.png',kenda:'images/img81-41a60cef.png',shimano:'images/img82-316c51a8.png',tektro:'images/img83-a11ab07f.png',joytech:'images/img84-3acd901b.png'};
+const LT={tecpwr:1,continental:1,neco:1,selleroyal:1,prowheel:1,joytech:1,kenda:1,shimano:1,deore:1,rockshox:1,kmc:1,alexrims:1,novatec:1,hollowtech:1,wellgo:1};
 const NM={shimano:'Shimano',tektro:'Tektro',joytech:'Joytech',kenda:'Kenda',deore:'Shimano Deore',rockshox:'RockShox',alexrims:'AlexRims',hollowtech:'Hollowtech',jagwire:'JagWire',xspark:'X-Spark',kmc:'KMC',suntour:'SR Suntour',prowheel:'Prowheel',tecpwr:'TEC PWR',neco:'Neco',novatec:'Novatec',continental:'Continental',selleroyal:'Selle Royal',wellgo:'Wellgo'};
 const LOGO=document.querySelector('.logo img').src;
 const badge=k=>!k?`<span class="badge" aria-label="Brand not listed" style="color:var(--muted)">—</span>`:k==='atum'?`<span class="badge"><img loading="lazy" src="${LOGO}" alt="ATUM"></span>`:LT[k]?`<span class="badge lt"><img loading="lazy" class="bl ${k}" src="${LG[k]}" alt="${NM[k]}"></span>`:LG[k]?`<span class="badge dk"><img loading="lazy" class="bl ${k}" src="${LG[k]}" alt="${NM[k]}"></span>`:`<span class="badge dk" style="color:#fff;font:700 13px var(--disp);letter-spacing:.06em">${NM[k].toUpperCase()}</span>`;
