@@ -112,7 +112,8 @@ dt{color:var(--muted)}dd{margin:0}
 .badge img{height:24px;width:auto;display:block}
 .badge.dk{background:#121212;border-color:#121212;min-width:132px;justify-content:center;height:40px}
 .badge img.bl{height:auto;filter:none}
-.bl.kenda{width:92px}.bl.shimano{width:96px}.bl.tektro{width:104px}.bl.joytech{width:68px}
+.bl.kenda{width:92px}
+.bl.tektro{width:110px}.bl.shimano{width:96px}.bl.tektro{width:104px}.bl.joytech{width:68px}
 @media (prefers-color-scheme:dark){.badge:not(.dk):not(.lt) img{filter:brightness(0) invert(1)}}
 a.card{display:block;text-decoration:none}
 .crumb{font-size:15px;color:var(--muted);margin:26px 0 22px}.crumb a{color:var(--ink)}
@@ -444,7 +445,7 @@ const BIKES=[
 const $=s=>document.querySelector(s);
 const fmt=n=>'$'+n.toLocaleString('en-US');
 const pt=b=>b.price?fmt(b.price):'Ask for price';
-const LG={deore:'images/img67-a178861d.png',rockshox:'images/img68-2652bed9.png',kmc:'images/img69-53172c08.png',alexrims:'images/img70-d819a047.png',novatec:'images/img71-ea976569.png',hollowtech:'images/img72-f322ae18.png',wellgo:'images/img73-9a80bdda.png',kenda:'images/img74-41a60cef.png',shimano:'images/img75-316c51a8.png',tektro:'images/img76-f35b2076.png',joytech:'images/img77-a1b10cc9.png'};
+const LG={deore:'images/img67-a178861d.png',rockshox:'images/img68-2652bed9.png',kmc:'images/img69-53172c08.png',alexrims:'images/img70-d819a047.png',novatec:'images/img71-ea976569.png',hollowtech:'images/img72-f322ae18.png',wellgo:'images/img73-9a80bdda.png',kenda:'images/img74-41a60cef.png',shimano:'images/img75-316c51a8.png',tektro:'images/img76-a11ab07f.png',joytech:'images/img77-a1b10cc9.png'};
 const LT={kenda:1,shimano:1,deore:1,rockshox:1,kmc:1,alexrims:1,novatec:1,hollowtech:1,wellgo:1};
 const NM={shimano:'Shimano',tektro:'Tektro',joytech:'Joytech',kenda:'Kenda',deore:'Shimano Deore',rockshox:'RockShox',alexrims:'AlexRims',hollowtech:'Hollowtech',jagwire:'JagWire',xspark:'X-Spark',kmc:'KMC',suntour:'SR Suntour',prowheel:'Prowheel',tecpwr:'TEC PWR',neco:'Neco',novatec:'Novatec',continental:'Continental',selleroyal:'Selle Royal',wellgo:'Wellgo'};
 const LOGO=document.querySelector('.logo img').src;
