@@ -1,8 +1,9 @@
 # ATUM Bikes — design system
 
 Direction: **confident, technical, quiet.** A navy-and-white studio where the bikes are the only
-colour. Big condensed headlines (like a frame decal), one blue for actions, one yellow reserved
-for the "journey" sections, everything else neutral. Nothing is centred by default; text sits on a
+colour. Big condensed headlines (like a frame decal), one blue for actions, one yellow for the active
+journey chip, everything else neutral. The journey section is a white panel framed by 3px navy
+rules above and below; text on it is navy and dark grey (`#3B4866`), never white. Nothing is centred by default; text sits on a
 left edge and photos get the room.
 
 Not based on a live comparison of other sites (UXKIN was not connected). It is built from the
@@ -23,7 +24,7 @@ Light mode only (`color-scheme: light`). Values live in `:root` in `index.html`.
 | `--primary` | `#1E4CA2` | ATUM logo blue. Buttons, links, icon colour, focus ring (`--accent` is kept as an alias) |
 | `--primary-hover` | `#0A3FA8` | Button hover |
 | `--on-primary` | `#FFFFFF` | Text on primary |
-| `--yellow` | `#F2B705` | Second accent, only inside the dark "journey" blocks: active chip, chart line, links on navy |
+| `--yellow` | `#F2B705` | Second accent: the active chip in the journey section only |
 | `--navy-2` | `#14224A` | Raised panel inside a navy section |
 | `--navy-3` | `#28386A` | Borders inside a navy section |
 | `--ok` | `#1F8A4C` | Success (in stock, message sent) |
@@ -106,4 +107,4 @@ Borders are 1px `--line`; the selected swatch and chip use 1.5–2px `--ink`.
   Side-on view first, then close-ups. No dark renders mixed into the grid.
 - **Icons**: inline SVG, 24-grid, 1.8px strokes, single colour (`currentColor`); brand marks
   (Facebook, Instagram, Shimano…) are used as supplied, never recoloured. No emoji.
-- **Charts** (journey): one yellow 6px line on navy, no gridlines.
+- **Charts** (journey): one primary-blue line on the off-white panel, no gridlines.
