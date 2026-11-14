@@ -568,7 +568,7 @@ $('#jchips').onclick=e=>{const i=e.target.dataset.i;if(i==null)return;ji=+i;[...
  function show(i){hi=(i+HB.length)%HB.length;const b=HB[hi];back.src=IMGS[b.photos[0]];back.alt='ATUM '+b.name;back.onload=()=>{back.classList.add('on');front.classList.remove('on');[front,back]=[back,front];};
   $('#hsName').textContent=b.name;$('#hsCat').textContent=b.cat;$('#hsLink').href='#bike-'+b.id;dots.forEach((d,n)=>d.setAttribute('aria-selected',n===hi));}
  const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
- function start(){if(rm)return;stop();tm=setInterval(()=>show(hi+1),4000)}function stop(){clearInterval(tm)}
+ function start(){if(rm)return;stop();tm=setInterval(()=>show(hi+1),3000)}function stop(){clearInterval(tm)}
  el.onmouseenter=stop;el.onmouseleave=start;el.addEventListener('focusin',stop);el.addEventListener('focusout',start);
  el.querySelector('.hs-dots').onclick=e=>{const i=e.target.dataset.i;if(i!=null){show(+i);start()}};
  document.addEventListener('visibilitychange',()=>document.hidden?stop():start());
