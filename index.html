@@ -139,6 +139,7 @@ a.card{display:block;text-decoration:none}
 .sw{margin:18px 0 0}.sw b{font-weight:600}.sw div{display:flex;gap:10px;margin-top:8px}.sw button{width:32px;height:32px;border-radius:50%;border:2px solid var(--line);cursor:pointer;padding:0}.sw button[aria-pressed="true"]{outline:2px solid var(--ink);outline-offset:2px}
 .badge.lt{background:#fff;border-color:var(--line);min-width:132px;justify-content:center;height:40px}
 .badge.lt img.bl{height:26px;width:auto;filter:none}.badge.lt img.rockshox{height:32px}
+.badge.lt img.novatec{height:36px}
 .badge.lt img.prowheel{height:20px}
 .badge.lt img.joytech{height:20px}
 .badge.lt img.kenda{height:22px}
@@ -447,7 +448,7 @@ const BIKES=[
 const $=s=>document.querySelector(s);
 const fmt=n=>'$'+n.toLocaleString('en-US');
 const pt=b=>b.price?fmt(b.price):'Ask for price';
-const LG={prowheel:'images/img67-a9ace07b.png',deore:'images/img68-a178861d.png',rockshox:'images/img69-2652bed9.png',kmc:'images/img70-53172c08.png',alexrims:'images/img71-d819a047.png',novatec:'images/img72-ea976569.png',hollowtech:'images/img73-f322ae18.png',wellgo:'images/img74-9a80bdda.png',kenda:'images/img75-41a60cef.png',shimano:'images/img76-316c51a8.png',tektro:'images/img77-a11ab07f.png',joytech:'images/img78-3acd901b.png'};
+const LG={prowheel:'images/img67-a9ace07b.png',deore:'images/img68-a178861d.png',rockshox:'images/img69-2652bed9.png',kmc:'images/img70-53172c08.png',alexrims:'images/img71-d819a047.png',novatec:'images/img72-6cd02c05.png',hollowtech:'images/img73-f322ae18.png',wellgo:'images/img74-9a80bdda.png',kenda:'images/img75-41a60cef.png',shimano:'images/img76-316c51a8.png',tektro:'images/img77-a11ab07f.png',joytech:'images/img78-3acd901b.png'};
 const LT={prowheel:1,joytech:1,kenda:1,shimano:1,deore:1,rockshox:1,kmc:1,alexrims:1,novatec:1,hollowtech:1,wellgo:1};
 const NM={shimano:'Shimano',tektro:'Tektro',joytech:'Joytech',kenda:'Kenda',deore:'Shimano Deore',rockshox:'RockShox',alexrims:'AlexRims',hollowtech:'Hollowtech',jagwire:'JagWire',xspark:'X-Spark',kmc:'KMC',suntour:'SR Suntour',prowheel:'Prowheel',tecpwr:'TEC PWR',neco:'Neco',novatec:'Novatec',continental:'Continental',selleroyal:'Selle Royal',wellgo:'Wellgo'};
 const LOGO=document.querySelector('.logo img').src;
