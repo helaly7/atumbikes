@@ -8,11 +8,16 @@
 <meta property="og:title" content="ATUM Bikes">
 <meta property="og:description" content="Mountain, road, gravel, hybrid and city bicycles built with Shimano components.">
 <meta name="theme-color" content="#1E4CA2">
+<link rel="canonical" href="https://atumbikes.com/">
+<meta property="og:url" content="https://atumbikes.com/">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://atumbikes.com/images/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="images/img00-2770991a.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Instrument+Sans:wght@400;500;600&display=swap">
 <style>
-:root{--bg:#F1F4F9;--surface:#FFFFFF;--ink:#0F1B3C;--muted:#52607F;--line:#CCD5E5;--accent:#1E4CA2;--on-accent:#FFFFFF;
+:root{--bg:#F1F4F9;--surface:#FFFFFF;--ink:#0F1B3C;--muted:#52607F;--line:#CCD5E5;--line-soft:#E8EDF8;--primary:#1E4CA2;--primary-hover:#0A3FA8;--on-primary:#FFFFFF;--accent:var(--primary);--on-accent:var(--on-primary);--yellow:#F2B705;--navy-2:#14224A;--navy-3:#28386A;--ok:#1F8A4C;--warn:#B76E00;--err:#C0392B;--s-1:4px;--s-2:8px;--s-3:12px;--s-4:16px;--s-5:24px;--s-6:32px;--s-7:48px;--s-8:64px;--s-9:96px;--r-1:4px;--r-2:6px;--r-3:12px;--r-pill:99px;--shadow-1:0 14px 30px rgba(15,27,60,.18);--wrap:1200px;
 --disp:'Archivo','Arial Narrow',Arial,sans-serif;--body:'Instrument Sans',system-ui,Arial,sans-serif;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0B1530;--surface:#14224A;--ink:#E8EDF8;--muted:#9FAECF;--line:#28386A;--accent:#3E6FD6;color-scheme:dark}}
@@ -43,7 +48,7 @@ section{padding:88px 0}
 .hero-art svg{display:block;width:min(100%,560px);margin:0 0 -2px auto;overflow:visible}
 .hero-art p{position:absolute;left:0;top:18px;margin:0;max-width:34ch;color:var(--muted)}
 .btn{display:inline-block;background:var(--accent);color:var(--on-accent);font:600 16px var(--body);padding:13px 22px;border:0;border-radius:4px;cursor:pointer;text-decoration:none;margin-top:26px}
-.btn:hover{filter:brightness(.95)}
+.btn:hover{background:var(--primary-hover)}
 .chips{display:flex;flex-wrap:wrap;gap:10px;margin:30px 0 34px}
 .chip{font:500 15px var(--body);padding:9px 18px;border-radius:99px;border:1.5px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer}
 .chip[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
@@ -60,7 +65,7 @@ section{padding:88px 0}
 .gal button:nth-child(1){grid-column:span 2;grid-row:span 2}
 .gal svg{width:100%;height:100%;display:block}
 .gal span{position:absolute;left:10px;bottom:8px;font-size:14px;font-weight:500;color:var(--ink);background:var(--bg);padding:2px 8px;border-radius:3px}
-.journey{background:#0F1B3C;color:#fff}
+.journey{background:var(--ink);color:#fff}
 .journey .lede{color:#B6C2DD}
 .journey .chip{border-color:#fff;color:#fff}.journey .chip[aria-pressed="true"]{background:#F2B705;border-color:#F2B705;color:#0F1B3C}
 .journey .btn{background:#F2B705;color:#0F1B3C}
@@ -121,7 +126,7 @@ a.card{display:block;text-decoration:none}
 .dd{position:relative;padding:20px 0;margin:-20px 0}
 .ddb{background:none;border:0;padding:0;font:inherit;color:var(--muted);cursor:pointer;display:flex;align-items:center;gap:5px}
 .ddb:hover,.dd.open .ddb{color:var(--ink)}
-.ddm{display:none;position:absolute;top:100%;left:-14px;margin:0;padding:8px;list-style:none;min-width:200px;background:var(--surface);border:1px solid var(--line);border-radius:6px;box-shadow:0 14px 30px rgba(15,27,60,.18);z-index:20}
+.ddm{display:none;position:absolute;top:100%;left:-14px;margin:0;padding:8px;list-style:none;min-width:200px;background:var(--surface);border:1px solid var(--line);border-radius:6px;box-shadow:var(--shadow-1);z-index:20}
 .dd.open .ddm{display:block}
 @media (hover:hover){.dd:hover .ddm{display:block}}
 .ddm a{display:flex;justify-content:space-between;gap:20px;padding:10px 14px;border-radius:4px;color:var(--ink);font-size:15px}
@@ -163,6 +168,13 @@ section{scroll-margin-top:84px}
 nav a.soc{padding:11px 6px}
 footer .soc{margin-left:8px}
 @media (min-width:640px){nav .ct.soc{display:inline-flex}}
+.ddx{display:none}
+@media (max-width:639px){.ddx{display:block}.ddx:first-of-type{border-top:1px solid var(--line);margin-top:6px;padding-top:6px}}
+footer a{display:inline-flex;align-items:center;min-height:44px}
+footer .soc{min-width:44px;justify-content:center;margin-left:0}
+@media (min-width:901px){.hero-art p{max-width:min(48ch,calc(100% - 660px));top:22px;font-size:18px}.hero-cta{position:absolute;left:0;top:150px;margin:0}}
+.hero-cta{margin-top:26px}
+@media (max-width:600px){.parts{min-width:0}.parts tr{display:grid;grid-template-columns:1fr auto;align-items:center}.parts thead th:nth-child(3){display:none}.parts td:nth-child(3){grid-column:1/-1;padding-top:0;font-size:14px;color:var(--muted)}.parts td:nth-child(1),.parts td:nth-child(2){border-bottom:0}}
 footer{border-top:1px solid var(--line);padding:36px 0;color:var(--muted);font-size:15px}
 footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 @media (max-width:760px){nav{gap:14px;font-size:14px}.gal{grid-template-columns:repeat(2,1fr)}
@@ -177,8 +189,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 <main id="top">
 <div class="wrap hero">
 <h1>Great bikes<br>for great people.</h1>
-<div class="hero-art"><p>Bicycles that combine strength, style and precision, built with Shimano components, for mountain trails, city streets and everything between.</p><div id="heroBike"></div></div>
-<a class="btn" href="#bikes">Browse the bikes</a>
+<div class="hero-art"><p>Bicycles that combine strength, style and precision, built with Shimano components, for mountain trails, city streets and everything between.</p><a class="btn hero-cta" href="#bikes">Browse the bikes</a><div id="heroBike"></div></div>
 </div>
 
 <section id="bikes"><div class="wrap">
@@ -493,7 +504,7 @@ function renderBike(b){cur=b;const ph=!!b.photos;
  const gal=b.photos&&b.photos.length?`<h2>Gallery</h2><div class="bgal">${b.photos.map((p,i)=>`<button aria-label="Open photo ${i+1} of ${b.photos.length}" onclick="openGal('${b.id}',${i})"><img src="${IMGS[p]}" alt="" loading="lazy">${b.colors&&b.colors[i]?`<span>${b.colors[i].n}</span>`:''}</button>`).join('')}</div>`:'';
  const perf=PERF[b.id]?`<h2>Perfect for</h2><div class="perf">${PERF[b.id].map(p=>`<div><h3>${p[0]}</h3><p>${p[1]}</p></div>`).join('')}</div>`:'';
  const js=J.filter(j=>j.fit.includes(b.id));
- const fit=js.length?`<h2>Where it fits your journey</h2><div class="fit">${js.map(j=>`<div><h3>${j.k}</h3><p style="color:#B6C2DD;margin:8px 0 14px">${j.line}</p><svg viewBox="0 0 200 70" role="img" aria-label="Typical route profile"><polyline points="${j.pts}" fill="none" stroke="#F2B705" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/></svg><p style="color:#B6C2DD;font-size:15px;margin:8px 0 14px">${j.km}. ${j.surf}.</p>${j.bike===b.id?`<ul>${j.why.map(w=>`<li>${w}</li>`).join('')}</ul>`:`<p style="margin:0">Our top pick for this ride is the <a href="#bike-${j.bike}" style="color:#F2B705">${BIKES.find(x=>x.id===j.bike).name}</a>.</p>`}</div>`).join('')}</div>`:'';
+ const fit=js.length?`<h2>Where it fits your journey</h2><div class="fit">${js.map(j=>`<div><h3>${j.k}</h3><p style="color:#B6C2DD;margin:8px 0 14px">${j.line}</p><svg viewBox="0 0 200 70" role="img" aria-label="Typical route profile"><polyline points="${j.pts}" fill="none" stroke="#F2B705" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/></svg><p style="color:#B6C2DD;font-size:15px;margin:8px 0 14px">${j.km}. ${j.surf}.</p>${j.bike===b.id?`<ul>${j.why.map(w=>`<li>${w}</li>`).join('')}</ul>`:`<p style="margin:0 0 8px">The ${b.name} is built for this ride.</p><p style="margin:0;color:#B6C2DD;font-size:15px">Also consider the <a href="#bike-${j.bike}" style="color:var(--yellow)">${BIKES.find(x=>x.id===j.bike).name}</a>.</p>`}</div>`).join('')}</div>`:'';
  const more=BIKES.filter(x=>x.id!==b.id).sort((x,y)=>(y.cat===b.cat)-(x.cat===b.cat)).slice(0,3);
  bp.innerHTML=`<div class="wrap bp"><p class="crumb"><a href="#bikes">All bikes</a> / <a href="#cat-${b.cat.toLowerCase()}">${b.cat}</a>${b.cat===b.name?'':' / '+b.name}</p><div class="bp-top"><div>${view}</div><div><p style="color:var(--muted);margin:0">${b.cat}</p><h1 class="bp-h">${b.name}</h1><p class="lede" style="margin-top:0">${b.desc}</p><span class="price">${pt(b)}</span>${swatches}${sizes}<a class="btn" href="mailto:atumbikes@gmail.com?subject=${encodeURIComponent('Question: '+b.name)}&body=${encodeURIComponent('Hello, I have a question about the '+b.name+'.')}" target="_blank" rel="noopener">Ask about this bike</a></div></div>${perf}${gal}${specs}${fit}<h2>More from the range</h2><div class="grid">${more.map(card).join('')}</div></div>`}
 const PERF={"pulse": [["The Entry-Level Racer", "Ideal for riders looking to enter the world of road racing."], ["The High-Speed Fitness Rider", "Perfect for those using cycling for intense cardio training."], ["The Long-Distance Roadie", "A top choice for cyclists who value smooth gear transitions and ergonomic comfort during multi-hour rides on paved roads."]], "gravity": [["Performance-driven", "Shimano Acera gearing and hydraulic brakes for professional-level control."], ["Built to last", "Sealed bearing hubs and alloy frame ensure durability."], ["Adventure-ready", "29″ wheels and suspension fork make it versatile for both trails and city rides."]],'phantom-s':[["The Skill Builder", "A reliable 9-speed platform perfect for riders mastering their gear transitions and racing technique."], ["The Fitness Enthusiast", "An ideal setup for those looking to push their endurance limits and speed during weekly training sessions."], ["The High-Value Commuter", "A robust and agile machine that offers high-end aesthetics and speed for the daily urban traveller."]],"eclipse": [["The Agile City Commuter", "Ideal for riders looking to slice through urban traffic with a fast, lightweight, and nimble ride."], ["The Fitness Enthusiast", "Perfect for those using cycling for high-speed pavement training and intense cardio workouts."], ["The Weekend Distance Rider", "A top choice for cyclists who value comfortable ergonomics, smooth multi-gear shifting, and reliable handling on long tarmac journeys."]], "eclipse-x": [["The All-Weather Commuter", "Ideal for daily riders needing reliable disc brakes for unpredictable city streets and wet conditions."], ["The Multi-Terrain Fitness Rider", "Perfect for switching between fast asphalt cardio and bumpy park pathways with the lockable fork."], ["The Weekend Urban Explorer", "A top choice for long, multi-hour city treks that require both high speed and rugged comfort."]], "active": [["The Everyday Casual Rider", "Ideal for local neighborhood loops, relaxed park cruising, and spontaneous weekend rides."], ["The Nimble Commuter", "Perfect for navigating short city distances and compact spaces with agile, quick-accelerating 26-inch wheels."], ["The Budget-Conscious Explorer", "A top choice for those looking for a versatile, reliable multi-terrain setup without sacrificing modern design."]], "storm": [["Mountain trails", "Reliable suspension and large tires for rough terrain."], ["Endurance rides", "Lightweight frame and Shimano gearing for long distances."], ["Adventure cycling", "Versatile build for both off-road and urban exploration."]], "alpha": [["Daily commuting", "Daily commuting in the city."], ["Fitness rides", "Fitness rides and long-distance cycling."], ["Light off-road", "Light off-road trails and mixed terrain."], ["Beginners to intermediate riders", "Looking for reliability."], ["Comfort + performance", "Riders who want comfort and performance in one bike."]], "evo": [["Versatile Commuters", "Riders who need one fast, durable bike for both smooth city streets and rough gravel shortcuts."], ["Performance Seekers", "Those wanting professional Shimano hydraulic brakes and 27-speed gears for elite control and effortless climbing."], ["Distance & Stability", "Taller riders or long-distance cyclists who value the high-speed momentum and comfort of 29-inch wheels."]], "evo-pro": [["The Serious Trail Enthusiast", "Those tackling technical terrain who need the precision of a Shimano Deore drivetrain and adjustable Air Suspension."], ["Weight-Conscious Athletes", "Riders looking for a lighter, more “flickable” bike that makes steep climbs faster and more efficient."], ["The Reliability Seekers", "Cyclists who want a low-maintenance, high-performance setup featuring sealed bearing hubs and elite braking power."]], "phantom": [["The Aspiring Racer", "A budget-friendly “pro-spec” machine perfect for entering local amateur races and criteriums."], ["The Weekend Warrior", "The ideal balance of speed and comfort for long-distance Friday morning group rides."], ["The Performance Commuter", "A durable, fast-rolling workhorse for riders who want a high-speed daily workout."]], "gravel": [["Beating Tough City Streets", "Perfect for daily commuters facing potholes, speed bumps, and sandy asphalt that would ruin a standard road bike."], ["Mixed-Terrain Weekend Exploring", "Ideal for riders wanting to transition seamlessly from fast asphalt to dirt tracks and gravel paths."], ["Affordable Endurance Riding", "Perfect for cyclists seeking the premium comfort and speed of a drop-bar gravel bike without the high import price tag."]]};
@@ -505,7 +516,7 @@ function route(){const h=decodeURIComponent(location.hash.slice(1)),b=BIKES.find
  else{const was=home.hidden,c=CATH[h];home.hidden=false;bp.hidden=true;document.title=T0;
   if(c){cat=c;drawChips();drawGrid();document.getElementById('bikes').scrollIntoView()}
   else{const t=h&&document.getElementById(h);if(t)t.scrollIntoView();else if(was)window.scrollTo(0,0)}}}
-$('#ddm').innerHTML=[['All bikes','cat-all'],['MTB','cat-mtb'],['Road','cat-road'],['Gravel','cat-gravel'],['Hybrid','cat-hybrid'],['City','cat-city']].map(([t,h])=>`<li><a href="#${h}">${t}<small>${h==='cat-all'?BIKES.length:BIKES.filter(b=>b.cat===CATH[h]).length}</small></a></li>`).join('');
+$('#ddm').innerHTML=[['All bikes','cat-all'],['MTB','cat-mtb'],['Road','cat-road'],['Gravel','cat-gravel'],['Hybrid','cat-hybrid'],['City','cat-city']].map(([t,h])=>`<li><a href="#${h}">${t}<small>${h==='cat-all'?BIKES.length:BIKES.filter(b=>b.cat===CATH[h]).length}</small></a></li>`).join('')+`<li class="ddx"><a href="#contact">Contact</a></li><li class="ddx"><a href="https://www.facebook.com/atumbikesofficial/" target="_blank" rel="noopener">Facebook</a></li><li class="ddx"><a href="https://www.instagram.com/atumbikes.official/" target="_blank" rel="noopener">Instagram</a></li>`;
 const dd=$('#dd'),ddb=$('#ddb');
 const setDD=o=>{dd.classList.toggle('open',o);ddb.setAttribute('aria-expanded',o)};
 ddb.onclick=e=>{e.stopPropagation();setDD(!dd.classList.contains('open'))};
