@@ -92,7 +92,7 @@ for (const b of BIKES) {
   const sizes = (b.sizes || []).join(' and ');
   const raw = (b.desc || '').includes(': ') ? b.desc.slice(b.desc.indexOf(': ') + 2) : (b.desc || '');
   const intro = raw.charAt(0).toUpperCase() + raw.slice(1);
-  const lead = `${b.name} ${kind} from ATUM Bikes, Egypt.`;
+  const lead = `${b.name} ${kind} from ATUM Bikes.`;
   const tail = sizes ? ` Size${b.sizes.length > 1 ? 's' : ''} ${sizes}.` : '';
   const desc = short(`${lead} ${short(intro, Math.max(40, 158 - lead.length - tail.length - 2))}${tail}`.replace(/\s+/g, ' ').trim());
   const photos = (b.photos || []).map(i => abs(IMGS[i]));
