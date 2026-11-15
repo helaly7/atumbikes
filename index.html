@@ -301,7 +301,7 @@ const BIKES=[
 {n:'Rims',b:'atum',d:'Alloy rims, 32 holes',k:'wheel'},
 {n:'Tyres',b:'kenda',d:'700 × 32c',k:'tyre'},
 {n:'Kickstand',b:null,d:'Side stand',k:'stand'}]},
-{id:'active',name:'Active 26" v1',type:'step',cat:'City',color:'#5CCFB8',price:null,sizes:['17″'],sub:'Step-through frame, 110 mm suspension fork, mudguards',photos:[36, 37, 38, 39],colors:[{n:'Purple',h:'#6B3FA0'},{n:'Mint',h:'#5CCFB8'},{n:'Pink',h:'#F29BC0'},{n:'Grey',h:'#8A8E93'}],desc:'A 26-inch aluminium step-through city bike with a 110 mm suspension fork, disc brakes, silver mudguards and Kenda tyres. The low frame makes it easy to get on and off. Available in four colours.',parts:[
+{id:'active',name:'Active 26″ v1',type:'step',cat:'City',color:'#5CCFB8',price:null,sizes:['17″'],sub:'Step-through frame, 110 mm suspension fork, mudguards',photos:[36, 37, 38, 39],colors:[{n:'Purple',h:'#6B3FA0'},{n:'Mint',h:'#5CCFB8'},{n:'Pink',h:'#F29BC0'},{n:'Grey',h:'#8A8E93'}],desc:'A 26-inch aluminium step-through city bike with a 110 mm suspension fork, disc brakes, silver mudguards and Kenda tyres. The low frame makes it easy to get on and off. Available in four colours.',parts:[
 {n:'Frame',b:'atum',d:'Alloy 6061 frame, inner routing cables, 17 inch',k:'frame'},
 {n:'Fork',b:'atum',d:'Alloy suspension fork, lockable, 110 mm travel',k:'susp'},
 {n:'Rear derailleur',b:'shimano',d:'Tourney TY300',k:'rder'},
@@ -592,7 +592,7 @@ function drawJ(){const j=J[ji],b=BIKES.find(x=>x.id===j.bike);
 $('#jbody').innerHTML=`<div><h3>${j.line}</h3><p style="color:#6E7A94;margin:0">Your match is the <strong>${b.name}</strong>, ${b.cat.toLowerCase()}${b.price?', from '+fmt(b.price):''}.</p><ul>${j.why.map(w=>`<li>${w}</li>`).join('')}</ul><a class="btn" href="/bikes/${b.id}/">See the ${b.name}</a></div>
 <div><div class="prof"><svg viewBox="0 0 200 70" role="img" aria-label="Typical route profile"><polyline points="${j.pts}" fill="none" stroke="var(--yellow)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/></svg><p>${j.km}. ${j.surf}. ${j.pts_note}.</p></div><div class="jbike">${pic(b,'(max-width:760px) 92vw, 540px')}</div></div>`}
 $('#jchips').onclick=e=>{const i=e.target.dataset.i;if(i==null)return;ji=+i;[...$('#jchips').children].forEach((c,n)=>c.setAttribute('aria-pressed',n===ji));drawJ()};
-(function(){if(PB)return;const HB=BIKES.filter(b=>b.photos&&b.photos.length),el=$('#heroBike');let hi=0,tm;
+(function(){if(PB)return;const HO=['pulse','gravity','phantom','gravel'],HB=BIKES.filter(x=>x.photos&&x.photos.length).sort((p,q)=>{const i=HO.indexOf(p.id),j=HO.indexOf(q.id);return (i<0?HO.length:i)-(j<0?HO.length:j)}),el=$('#heroBike');let hi=0,tm;
  el.innerHTML=`<a class="hs" id="hsLink" href="/bikes/${HB[0].id}/"><img loading="lazy" class="hs-a on" src="${IMGS[HB[0].photos[0]]}" alt="ATUM ${HB[0].name}"><img loading="lazy" class="hs-b" alt=""><span class="hs-cap"><span id="hsName">${HB[0].name}</span><small id="hsCat">${HB[0].cat}</small></span></a><div class="hs-dots" role="tablist" aria-label="Featured bikes">${HB.map((b,i)=>`<button role="tab" aria-label="${b.name}" aria-selected="${i===0}" data-i="${i}"></button>`).join('')}</div>`;
  const A=el.querySelector('.hs-a'),B=el.querySelector('.hs-b'),dots=[...el.querySelectorAll('.hs-dots button')];let front=A,back=B;
  function show(i){hi=(i+HB.length)%HB.length;const b=HB[hi];back.src=IMGS[b.photos[0]];back.alt='ATUM '+b.name;back.onload=()=>{back.classList.add('on');front.classList.remove('on');[front,back]=[back,front];};
