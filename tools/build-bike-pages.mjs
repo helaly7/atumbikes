@@ -89,7 +89,12 @@ for (const b of BIKES) {
   const url = `${SITE}/bikes/${b.id}/`;
   const kind = KIND[b.cat] || 'bike';
   const title = `${b.name} ${kind} | ATUM Bikes`;
-  const desc = short(b.desc || `${b.name}, ${b.cat}. ${b.sub || ''}`);
+  const sizes = (b.sizes || []).join(' and ');
+  const raw = (b.desc || '').includes(': ') ? b.desc.slice(b.desc.indexOf(': ') + 2) : (b.desc || '');
+  const intro = raw.charAt(0).toUpperCase() + raw.slice(1);
+  const lead = `${b.name} ${kind} from ATUM Bikes, Egypt.`;
+  const tail = sizes ? ` Size${b.sizes.length > 1 ? 's' : ''} ${sizes}.` : '';
+  const desc = short(`${lead} ${short(intro, Math.max(40, 158 - lead.length - tail.length - 2))}${tail}`.replace(/\s+/g, ' ').trim());
   const photos = (b.photos || []).map(i => abs(IMGS[i]));
   const image = photos[0] || `${SITE}/images/og.jpg`;
 
