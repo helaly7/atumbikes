@@ -227,9 +227,11 @@ if (missing.length) {
   const url = `${SITE}/where-to-buy/`;
   const body = shopsPage();
   if (!body.includes(SHOPS[0].n)) throw new Error('shopsPage produced nothing');
-  const govs = [...new Set(SHOPS.map(s => s.gov))];
-  const title = 'Where to buy ATUM bikes in Egypt | ATUM Bikes';
-  const desc = short(`ATUM bikes are sold at ${SHOPS.length} shops across ${govs.join(', ')}. `
+  // Title and description follow the data, so adding a country needs no edit here.
+  const countries = [...new Set(SHOPS.map(s => s.country))];
+  const cities = [...new Set(SHOPS.map(s => s.city))];
+  const title = `Where to buy ATUM bikes${countries.length === 1 ? ' in ' + countries[0] : ''} | ATUM Bikes`;
+  const desc = short(`ATUM bikes are sold at ${SHOPS.length} shops in ${cities.join(', ')}. `
     + 'Addresses, phone numbers and directions for every stockist, and how to become a distributor.');
 
   let doc = html;
@@ -255,7 +257,7 @@ if (missing.length) {
   mkdirSync(join(ROOT, 'where-to-buy'), { recursive: true });
   writeFileSync(join(ROOT, 'where-to-buy', 'index.html'), doc);
   urls.push(url);
-  console.log(`Built where-to-buy with ${SHOPS.length} shops in ${govs.length} governorates`);
+  console.log(`Built where-to-buy with ${SHOPS.length} shops in ${cities.length} cities across ${countries.length} ${countries.length === 1 ? 'country' : 'countries'}`);
 }
 
 // ---------------------------------------------------------------- sitemap

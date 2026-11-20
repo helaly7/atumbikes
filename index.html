@@ -232,11 +232,18 @@ footer .soc{min-width:44px;justify-content:center;margin-left:0}
 .rv-pick input:focus-visible + label{outline:3px solid var(--accent);outline-offset:2px}
 .rv-note{color:var(--muted);font-size:14px;margin:16px 0 0}
 .rv-ok{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--ok);border-radius:6px;padding:22px 24px;max-width:620px}
-.wtb h2{margin:54px 0 6px}
-.wtb .cnt{color:var(--muted);font-size:15px;margin:0 0 20px}
+.wtb h2{margin:58px 0 6px}
+.wtb h3{margin:34px 0 14px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.wtb h3 .cnt{font:400 15px var(--body);color:var(--muted);margin:0}
+.wtb>p.cnt{color:var(--muted);font-size:15px;margin:0 0 4px}
+.becomed h3{display:block}
 .shops{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr));gap:16px}
 .shop{background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--ink);border-radius:6px;padding:20px 22px;display:flex;flex-direction:column;gap:6px}
-.shop h3{font-size:20px;line-height:1.25}
+.shop h4{font-family:var(--disp);font-size:20px;font-weight:700;font-stretch:90%;line-height:1.25;margin:0}
+/* dir=auto fixes the ordering inside each Arabic or mixed line; the alignment
+   stays left so a card does not read ragged when its name is Arabic and its
+   area is Latin. */
+.shop h4,.shop .ar,.shop .ad{text-align:left}
 .shop .ar{color:var(--muted);font-size:15px;margin:0}
 .shop .ad{margin:4px 0 0;font-size:15px;color:var(--muted)}
 .shop .act{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
@@ -628,28 +635,38 @@ function submitReview(f,id){
  return false;
 }
 // ---------------------------------------------------------------- where to buy
-// Shops that stock ATUM, grouped on /where-to-buy/ by governorate. Keep this the
-// single source: the build reads it from here. Internal columns from the shop
-// directory (outreach status and the like) do not belong in it.
-const SHOPS=[{"n":"Bike Shop","tel":"011 25220000","area":"El Basatin","gov":"Cairo","addr":"4 sector 13, El-Basatin Sharkeya, El Basatin, Cairo Governorate 4236012"},{"n":"Train & Ride ابوالجوخ (Nasr City)","tel":"011 03001082","area":"8th District, Nasr City","gov":"Cairo","addr":"Ahmed Kamel, Al Manteqah Ath Thamenah, Nasr City, Cairo Governorate 4441514"},{"n":"3agalty Bike Shop","tel":"010 06066634","area":"6th District, Nasr City","gov":"Cairo","addr":"الشيخ طه الفشني، المنطقة السادسة، مدينة نصر، محافظة القاهرة"},{"n":"The WheelHouse EGY","tel":"012 83337650","area":"Katameya / Ain El Sokhna Rd","gov":"Cairo","addr":"KM 6 Katameya, Ain El Sokhna Rd, 11936"},{"n":"ابوالجوخ مدينتي - abouelgoukh madinaty","tel":"010 05446710","area":"Arabesque Mall, Madinaty","gov":"Cairo","addr":"ارابيسك مول, Second New Cairo, Cairo Governorate 4771202"},{"n":"Abouelgoukh - ابوالجوخ الرحاب السوق الشرقي","tel":"010 00481726","area":"Eastern Market, El Rehab","gov":"Cairo","addr":"Second New Cairo, Cairo Governorate 11841"},{"n":"ابو الجوخ التجمع الخامس Abouelgoukh new cairo","tel":"010 91731434","area":"Fifth Settlement, New Cairo","gov":"Cairo","addr":"ابو الجوخ التجمع الخامس Abouelgoukh, New Cairo 1, Cairo Governorate 11725"},{"n":"SevenGear","tel":"010 04055051","area":"Istad Area, Tanta","gov":"Gharbia","addr":"Istad Area, 18 شارع مدرسه الزراعة, 18 Al Zeraa ST, Gharbia Governorate"},{"n":"البرنس للدراجات prince bike shop","tel":"012 81998572","area":"El Kawther, Hurghada","gov":"Red Sea","addr":"بجوار مسجد جنة الرحمن، الكوثر خلف مستشفي الكوثر, Red Sea Governorate 84511"},{"n":"Second bike","tel":"010 10423588","area":"L'Acité Mall, 6th of October","gov":"Giza","addr":"لاسيتيه مول, First 6th of October, Giza Governorate 3232023"}];
+// Shops that stock ATUM. /where-to-buy/ groups them by country, then by city.
+// Adding a market means nothing more than new rows with a new country: the page,
+// its headings, its intro line, the title and the description all follow the data.
+// Keep this the single source -- the build reads it from here. Internal columns
+// from the shop directory (outreach status and the like) do not belong in it.
+const SHOPS=[{"n":"Bike Shop","tel":"011 25220000","area":"El Basatin","city":"Cairo","country":"Egypt","addr":"4 sector 13, El-Basatin Sharkeya, El Basatin, Cairo Governorate 4236012"},{"n":"Train & Ride ابوالجوخ (Nasr City)","tel":"011 03001082","area":"8th District, Nasr City","city":"Cairo","country":"Egypt","addr":"Ahmed Kamel, Al Manteqah Ath Thamenah, Nasr City, Cairo Governorate 4441514"},{"n":"3agalty Bike Shop","tel":"010 06066634","area":"6th District, Nasr City","city":"Cairo","country":"Egypt","addr":"الشيخ طه الفشني، المنطقة السادسة، مدينة نصر، محافظة القاهرة"},{"n":"The WheelHouse EGY","tel":"012 83337650","area":"Katameya / Ain El Sokhna Rd","city":"Cairo","country":"Egypt","addr":"KM 6 Katameya, Ain El Sokhna Rd, 11936"},{"n":"ابوالجوخ مدينتي - abouelgoukh madinaty","tel":"010 05446710","area":"Arabesque Mall, Madinaty","city":"New Cairo","country":"Egypt","addr":"ارابيسك مول, Second New Cairo, Cairo Governorate 4771202"},{"n":"Abouelgoukh - ابوالجوخ الرحاب السوق الشرقي","tel":"010 00481726","area":"Eastern Market, El Rehab","city":"New Cairo","country":"Egypt","addr":"Second New Cairo, Cairo Governorate 11841"},{"n":"ابو الجوخ التجمع الخامس Abouelgoukh new cairo","tel":"010 91731434","area":"Fifth Settlement, New Cairo","city":"New Cairo","country":"Egypt","addr":"ابو الجوخ التجمع الخامس Abouelgoukh, New Cairo 1, Cairo Governorate 11725"},{"n":"SevenGear","tel":"010 04055051","area":"Istad Area, Tanta","city":"Tanta","country":"Egypt","addr":"Istad Area, 18 شارع مدرسه الزراعة, 18 Al Zeraa ST, Gharbia Governorate"},{"n":"البرنس للدراجات prince bike shop","tel":"012 81998572","area":"El Kawther, Hurghada","city":"Hurghada","country":"Egypt","addr":"بجوار مسجد جنة الرحمن، الكوثر خلف مستشفي الكوثر, Red Sea Governorate 84511"},{"n":"Second bike","tel":"010 10423588","area":"L'Acité Mall, 6th of October","city":"6th of October","country":"Egypt","addr":"لاسيتيه مول, First 6th of October, Giza Governorate 3232023"}];
 const telHref=t=>{const d=String(t).replace(/\D/g,'');return 'tel:+20'+d.replace(/^0/,'')};
 const mapHref=sh=>'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(sh.n+' '+sh.addr);
 function shopsPage(){
- const govs=[...new Set(SHOPS.map(s=>s.gov))].sort((a,b)=>SHOPS.filter(s=>s.gov===b).length-SHOPS.filter(s=>s.gov===a).length||a.localeCompare(b));
- const groups=govs.map(g=>{
-  const l=SHOPS.filter(s=>s.gov===g);
-  return `<h2>${esc(g)}</h2><p class="cnt">${l.length} shop${l.length>1?'s':''}</p><div class="shops">${l.map(sh=>
-   `<div class="shop"><h3 dir="auto">${esc(sh.n)}</h3><p class="ar" dir="auto">${esc(sh.area)}</p><p class="ad" dir="auto">${esc(sh.addr)}</p>`
-   +`<div class="act"><a class="pri" href="${telHref(sh.tel)}">${esc(sh.tel)}</a>`
-   +`<a href="${mapHref(sh)}" target="_blank" rel="noopener">Directions</a></div></div>`).join('')}</div>`;
+ const by=(l,k)=>[...new Set(l.map(x=>x[k]))].sort((a,b)=>l.filter(x=>x[k]===b).length-l.filter(x=>x[k]===a).length||a.localeCompare(b));
+ const card=sh=>`<div class="shop"><h4 dir="auto">${esc(sh.n)}</h4><p class="ar" dir="auto">${esc(sh.area)}</p>`
+  +`<p class="ad" dir="auto">${esc(sh.addr)}</p><div class="act">`
+  +`<a class="pri" href="${telHref(sh.tel)}">${esc(sh.tel)}</a>`
+  +`<a href="${mapHref(sh)}" target="_blank" rel="noopener">Directions</a></div></div>`;
+ const countries=by(SHOPS,'country');
+ const blocks=countries.map(c=>{
+  const inC=SHOPS.filter(s=>s.country===c);
+  const cities=by(inC,'city').map(city=>{
+   const l=inC.filter(s=>s.city===city);
+   return `<h3>${esc(city)} <span class="cnt">${l.length} shop${l.length>1?'s':''}</span></h3>`
+    +`<div class="shops">${l.map(card).join('')}</div>`;
+  }).join('');
+  return `<h2>${esc(c)}</h2><p class="cnt">${inC.length} shop${inC.length>1?'s':''} in ${by(inC,'city').length} cit${by(inC,'city').length>1?'ies':'y'}</p>${cities}`;
  }).join('');
+ const where=countries.length>1?`${countries.length} countries`:countries[0];
  const mail='mailto:atumbikes@gmail.com?subject='+encodeURIComponent('Distributor enquiry')+'&body='+encodeURIComponent('Hello, I would like to stock ATUM bikes.\n\nCountry:\nCity:\nShop or company:\nWebsite:\n');
  return `<div class="wrap bp wtb"><p class="crumb"><a href="/#bikes">All bikes</a> / Where to buy</p>`
   +`<h1 class="bp-h">Where to buy</h1>`
-  +`<p class="lede" style="margin-top:0">ATUM bikes are sold through ${SHOPS.length} shops across Egypt. Call ahead to check which models and sizes are in stock.</p>`
-  +groups
+  +`<p class="lede" style="margin-top:0">ATUM bikes are sold through ${SHOPS.length} shops in ${where}. Call ahead to check which models and sizes are in stock.</p>`
+  +blocks
   +`<h2>Become a distributor</h2><div class="becomed"><h3>Stock ATUM where you are</h3>`
-  +`<p>We are expanding beyond Egypt and are looking for shops and importers to carry the range.</p>`
+  +`<p>We are expanding into new markets and are looking for shops and importers to carry the range.</p>`
   +`<p>Tell us where you are and what you sell, and we will send trade pricing and the full catalogue.</p>`
   +`<a class="btn" href="${mail}" target="_blank" rel="noopener">Get in touch</a></div></div>`;
 }
