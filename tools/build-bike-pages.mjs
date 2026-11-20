@@ -64,7 +64,7 @@ vm.runInContext(
     // baked into index.html below.
     + 'REVIEWS,SHOPS,shopsPage,'
     + 'home:{ddm:document.querySelector("#ddm").innerHTML,chips:document.querySelector("#chips").innerHTML,'
-    + 'grid:document.querySelector("#grid").innerHTML,gal:document.querySelector("#gal").innerHTML,'
+    + 'grid:document.querySelector("#grid").innerHTML,'
     + 'jchips:document.querySelector("#jchips").innerHTML,jbody:document.querySelector("#jbody").innerHTML}};',
   sandbox, { filename: 'index.html <script>' },
 );
@@ -108,7 +108,7 @@ for (const b of BIKES) {
 // The home page sections are not needed on bike pages; keep only the empty
 // containers the script fills in, so it runs unchanged.
 const homeShell = '<main id="top" hidden><div id="heroBike"></div><div id="chips"></div><div id="grid"></div>'
-  + '<div id="gal"></div><div id="jchips"></div><div id="jbody"></div></main>';
+  + '<div id="jchips"></div><div id="jbody"></div></main>';
 
 // ---------------------------------------------------------------- one page per bike
 rmSync(join(ROOT, 'bikes'), { recursive: true, force: true });
