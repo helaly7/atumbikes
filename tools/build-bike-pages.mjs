@@ -21,7 +21,7 @@ import { createRequire } from 'node:module';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SITE = 'https://atumbikes.com';
-const html = readFileSync(join(ROOT, 'index.html'), 'utf8');
+let html = readFileSync(join(ROOT, 'index.html'), 'utf8');
 
 // ---------------------------------------------------------------- run the page script with a stub DOM
 const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(m => m[1]);
@@ -57,10 +57,16 @@ const sandbox = {
 sandbox.window = sandbox;
 vm.createContext(sandbox);
 vm.runInContext(
-  scripts[0] + '\n;globalThis.__site={BIKES,IMGS,renderBike,bp:document.querySelector("#bikepage")};',
+  scripts[0] + '\n;globalThis.__site={BIKES,IMGS,renderBike,bp:document.querySelector("#bikepage"),'
+    // The page script fills these in on load (drawChips/drawGrid/drawJ and the two
+    // top-level assignments). Grab the HTML it produced so the same markup can be
+    // baked into index.html below.
+    + 'home:{ddm:document.querySelector("#ddm").innerHTML,chips:document.querySelector("#chips").innerHTML,'
+    + 'grid:document.querySelector("#grid").innerHTML,gal:document.querySelector("#gal").innerHTML,'
+    + 'jchips:document.querySelector("#jchips").innerHTML,jbody:document.querySelector("#jbody").innerHTML}};',
   sandbox, { filename: 'index.html <script>' },
 );
-const { BIKES, IMGS, renderBike, bp } = sandbox.__site;
+const { BIKES, IMGS, renderBike, bp, home } = sandbox.__site;
 
 // ---------------------------------------------------------------- helpers
 const esc = s => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -75,6 +81,26 @@ function short(text, max = 158) {
 function setTag(doc, re, tag, what) {
   if (!re.test(doc)) throw new Error(`index.html: could not find ${what}`);
   return doc.replace(re, () => tag);
+}
+
+// ---------------------------------------------------------------- bake the home page
+// Without this the range, the close-ups and the journey only exist once the browser
+// has run the script, so a crawler sees a home page with no links to the 12 bike
+// pages. Write the markup the script produces between the <!--pr:name--> markers in
+// index.html instead: the same script still redraws it in the browser, so the page
+// behaves exactly as before, but the links and the text are in the HTML as served.
+function bake(doc, name, markup) {
+  const re = new RegExp(`(<!--pr:${name}-->)[\\s\\S]*?(<!--/pr:${name}-->)`);
+  if (!re.test(doc)) throw new Error(`index.html: no <!--pr:${name}--> markers`);
+  return doc.replace(re, (_, a, b) => a + markup + b);
+}
+for (const [name, markup] of Object.entries(home)) {
+  if (!markup) throw new Error(`the page script rendered nothing for #${name}`);
+  html = bake(html, name, markup);
+}
+const bikeLinks = [...html.matchAll(/href="\/bikes\/([a-z-]+)\/"/g)].map(m => m[1]);
+for (const b of BIKES) {
+  if (!bikeLinks.includes(b.id)) throw new Error(`index.html has no link to /bikes/${b.id}/`);
 }
 
 // The home page sections are not needed on bike pages; keep only the empty
@@ -171,5 +197,6 @@ ${urls.map(u => `<url><loc>${u}</loc><lastmod>${today}</lastmod><changefreq>mont
 </urlset>
 `;
 writeFileSync(join(ROOT, 'sitemap.xml'), sitemap);
+writeFileSync(join(ROOT, 'index.html'), html);
 if (!existsSync(join(ROOT, 'CNAME'))) console.warn('note: no CNAME file found');
-console.log(`Built ${urls.length} bike pages and sitemap.xml`);
+console.log(`Built ${urls.length} bike pages, sitemap.xml and baked ${Object.keys(home).length} home page sections`);
