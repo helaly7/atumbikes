@@ -61,12 +61,13 @@ vm.runInContext(
     // The page script fills these in on load (drawChips/drawGrid/drawJ and the two
     // top-level assignments). Grab the HTML it produced so the same markup can be
     // baked into index.html below.
+    + 'REVIEWS,'
     + 'home:{ddm:document.querySelector("#ddm").innerHTML,chips:document.querySelector("#chips").innerHTML,'
     + 'grid:document.querySelector("#grid").innerHTML,gal:document.querySelector("#gal").innerHTML,'
     + 'jchips:document.querySelector("#jchips").innerHTML,jbody:document.querySelector("#jbody").innerHTML}};',
   sandbox, { filename: 'index.html <script>' },
 );
-const { BIKES, IMGS, renderBike, bp, home } = sandbox.__site;
+const { BIKES, IMGS, renderBike, bp, home, REVIEWS } = sandbox.__site;
 
 // ---------------------------------------------------------------- helpers
 const esc = s => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -128,18 +129,42 @@ for (const b of BIKES) {
   const body = bp.innerHTML;
   if (!body || !body.includes(b.name)) throw new Error(`renderBike produced nothing for ${b.id}`);
 
-  // No Product block here on purpose. Google only treats Product markup as valid
-  // with offers, review or aggregateRating, and offers needs a real price. The
-  // bikes are "Ask for price", and there are no customer ratings anywhere, so
-  // every Product block was reported invalid. Do not add one back with a made-up
-  // price or rating: that breaks Google's spam policy and risks a manual action
-  // against the whole domain. When real prices exist, add this inside a Product
-  // block instead:
+  // Product markup is only emitted for a bike that has real reviews in REVIEWS,
+  // because Google accepts Product only with offers, review or aggregateRating.
+  // Every bike is "Ask for price", so offers is not available; the aggregateRating
+  // below is computed from the very reviews rendered on the page, which is what
+  // Google requires. A bike with no reviews gets breadcrumbs only.
+  // Never hand-write an aggregateRating, and never add a review nobody sent.
+  // When real prices exist, add this to the Product object as well:
   //   offers: { '@type': 'Offer', url, price: '<price>', priceCurrency: '<ISO code>',
   //             availability: 'https://schema.org/InStock',
   //             seller: { '@type': 'Organization', name: 'ATUM Bikes' } }
-  // The Organization block in index.html's <head> still carries the brand.
+  const revs = REVIEWS[b.id] || [];
+  for (const r of revs) {
+    if (!(r.r >= 1 && r.r <= 5) || !r.n || !r.t || !/^\d{4}-\d{2}-\d{2}$/.test(r.d || '')) {
+      throw new Error(`REVIEWS.${b.id}: every review needs n, r 1-5, d as YYYY-MM-DD and t`);
+    }
+  }
+  const rating = revs.length ? Math.round((revs.reduce((t, r) => t + r.r, 0) / revs.length) * 10) / 10 : 0;
+  const product = revs.length ? [{
+    '@context': 'https://schema.org', '@type': 'Product', name: b.name, url,
+    image: photos.length ? photos : [image], description: b.desc,
+    category: `${b.cat} bicycles`, brand: { '@type': 'Brand', name: 'ATUM' },
+    ...(b.colors ? { color: b.colors.map(c => c.n).join(', ') } : {}),
+    ...(b.sizes ? { size: b.sizes.join(', ') } : {}),
+    aggregateRating: {
+      '@type': 'AggregateRating', ratingValue: rating, reviewCount: revs.length,
+      bestRating: 5, worstRating: 1,
+    },
+    review: revs.map(r => ({
+      '@type': 'Review', author: { '@type': 'Person', name: r.n }, datePublished: r.d,
+      reviewBody: r.t,
+      reviewRating: { '@type': 'Rating', ratingValue: r.r, bestRating: 5, worstRating: 1 },
+    })),
+  }] : [];
+
   const ld = [
+    ...product,
     {
       '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
         { '@type': 'ListItem', position: 1, name: 'All bikes', item: `${SITE}/` },
@@ -204,4 +229,6 @@ ${urls.map(u => `<url><loc>${u}</loc><lastmod>${today}</lastmod><changefreq>mont
 writeFileSync(join(ROOT, 'sitemap.xml'), sitemap);
 writeFileSync(join(ROOT, 'index.html'), html);
 if (!existsSync(join(ROOT, 'CNAME'))) console.warn('note: no CNAME file found');
+const withReviews = BIKES.filter(b => (REVIEWS[b.id] || []).length).length;
 console.log(`Built ${urls.length} bike pages, sitemap.xml and baked ${Object.keys(home).length} home page sections`);
+console.log(withReviews ? `${withReviews} bike page(s) carry Product markup from real reviews` : 'No reviews yet, so no Product markup (breadcrumbs only)');
