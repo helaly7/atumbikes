@@ -128,13 +128,18 @@ for (const b of BIKES) {
   const body = bp.innerHTML;
   if (!body || !body.includes(b.name)) throw new Error(`renderBike produced nothing for ${b.id}`);
 
+  // No Product block here on purpose. Google only treats Product markup as valid
+  // with offers, review or aggregateRating, and offers needs a real price. The
+  // bikes are "Ask for price", and there are no customer ratings anywhere, so
+  // every Product block was reported invalid. Do not add one back with a made-up
+  // price or rating: that breaks Google's spam policy and risks a manual action
+  // against the whole domain. When real prices exist, add this inside a Product
+  // block instead:
+  //   offers: { '@type': 'Offer', url, price: '<price>', priceCurrency: '<ISO code>',
+  //             availability: 'https://schema.org/InStock',
+  //             seller: { '@type': 'Organization', name: 'ATUM Bikes' } }
+  // The Organization block in index.html's <head> still carries the brand.
   const ld = [
-    {
-      '@context': 'https://schema.org', '@type': 'Product', name: b.name, url, image: photos.length ? photos : [image],
-      description: b.desc, category: `${b.cat} bicycles`, brand: { '@type': 'Brand', name: 'ATUM' },
-      ...(b.colors ? { color: b.colors.map(c => c.n).join(', ') } : {}),
-      ...(b.sizes ? { size: b.sizes.join(', ') } : {}),
-    },
     {
       '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
         { '@type': 'ListItem', position: 1, name: 'All bikes', item: `${SITE}/` },
