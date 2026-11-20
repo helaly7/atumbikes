@@ -49,6 +49,7 @@ const sandbox = {
   document: {
     querySelector: getEl, getElementById: id => getEl('#' + id), querySelectorAll: () => [],
     addEventListener() {}, title: '', hidden: false,
+    body: { dataset: {} },   // the page script reads data-static off it
   },
   location: { hash: '', pathname: '/', replace() {}, href: SITE + '/' },
   addEventListener() {}, scrollTo() {}, setInterval() { return 0; }, clearInterval() {}, setTimeout() { return 0; },
@@ -61,13 +62,13 @@ vm.runInContext(
     // The page script fills these in on load (drawChips/drawGrid/drawJ and the two
     // top-level assignments). Grab the HTML it produced so the same markup can be
     // baked into index.html below.
-    + 'REVIEWS,'
+    + 'REVIEWS,SHOPS,shopsPage,'
     + 'home:{ddm:document.querySelector("#ddm").innerHTML,chips:document.querySelector("#chips").innerHTML,'
     + 'grid:document.querySelector("#grid").innerHTML,gal:document.querySelector("#gal").innerHTML,'
     + 'jchips:document.querySelector("#jchips").innerHTML,jbody:document.querySelector("#jbody").innerHTML}};',
   sandbox, { filename: 'index.html <script>' },
 );
-const { BIKES, IMGS, renderBike, bp, home, REVIEWS } = sandbox.__site;
+const { BIKES, IMGS, renderBike, bp, home, REVIEWS, SHOPS, shopsPage } = sandbox.__site;
 
 // ---------------------------------------------------------------- helpers
 const esc = s => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -218,6 +219,45 @@ if (missing.length) {
   console.log(`Made ${missing.length} smaller photo copies`);
 }
 
+// ---------------------------------------------------------------- where to buy
+// One static page built from the same index.html shell as the bike pages, so the
+// header, styles and script are identical. data-static tells the page script to
+// leave this main alone instead of falling back to the home page view.
+{
+  const url = `${SITE}/where-to-buy/`;
+  const body = shopsPage();
+  if (!body.includes(SHOPS[0].n)) throw new Error('shopsPage produced nothing');
+  const govs = [...new Set(SHOPS.map(s => s.gov))];
+  const title = 'Where to buy ATUM bikes in Egypt | ATUM Bikes';
+  const desc = short(`ATUM bikes are sold at ${SHOPS.length} shops across ${govs.join(', ')}. `
+    + 'Addresses, phone numbers and directions for every stockist, and how to become a distributor.');
+
+  let doc = html;
+  doc = setTag(doc, /<title>[^<]*<\/title>/, `<title>${esc(title)}</title>`, '<title>');
+  doc = setTag(doc, /<meta name="description" content="[^"]*">/, `<meta name="description" content="${esc(desc)}">`, 'meta description');
+  doc = setTag(doc, /<meta property="og:title" content="[^"]*">/, '<meta property="og:title" content="Where to buy ATUM bikes">', 'og:title');
+  doc = setTag(doc, /<meta property="og:description" content="[^"]*">/, `<meta property="og:description" content="${esc(desc)}">`, 'og:description');
+  doc = setTag(doc, /<link rel="canonical" href="[^"]*">/, `<link rel="canonical" href="${url}">`, 'canonical');
+  doc = setTag(doc, /<meta property="og:url" content="[^"]*">/, `<meta property="og:url" content="${url}">`, 'og:url');
+  doc = setTag(doc, /<body>/, '<body data-static="1">', '<body>');
+  doc = setTag(doc, /<a class="skip" href="#top">/, '<a class="skip" href="#bikepage">', 'skip link');
+  doc = setTag(doc, /<main id="top">[\s\S]*?<\/main>\s*<main id="bikepage" hidden><\/main>/,
+    `${homeShell}\n<main id="bikepage">${body}</main>`, 'the two <main> elements');
+  const ld = {
+    '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'ATUM Bikes', item: `${SITE}/` },
+      { '@type': 'ListItem', position: 2, name: 'Where to buy', item: url },
+    ],
+  };
+  doc = doc.replace('</head>', () => `<script type="application/ld+json">${JSON.stringify(ld).replace(/</g, '\\u003c')}</script>\n</head>`);
+
+  rmSync(join(ROOT, 'where-to-buy'), { recursive: true, force: true });
+  mkdirSync(join(ROOT, 'where-to-buy'), { recursive: true });
+  writeFileSync(join(ROOT, 'where-to-buy', 'index.html'), doc);
+  urls.push(url);
+  console.log(`Built where-to-buy with ${SHOPS.length} shops in ${govs.length} governorates`);
+}
+
 // ---------------------------------------------------------------- sitemap
 const today = new Date().toISOString().slice(0, 10);
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
@@ -230,5 +270,5 @@ writeFileSync(join(ROOT, 'sitemap.xml'), sitemap);
 writeFileSync(join(ROOT, 'index.html'), html);
 if (!existsSync(join(ROOT, 'CNAME'))) console.warn('note: no CNAME file found');
 const withReviews = BIKES.filter(b => (REVIEWS[b.id] || []).length).length;
-console.log(`Built ${urls.length} bike pages, sitemap.xml and baked ${Object.keys(home).length} home page sections`);
+console.log(`Built ${BIKES.length} bike pages, sitemap.xml with ${urls.length + 1} URLs and baked ${Object.keys(home).length} home page sections`);
 console.log(withReviews ? `${withReviews} bike page(s) carry Product markup from real reviews` : 'No reviews yet, so no Product markup (breadcrumbs only)');
