@@ -62,13 +62,13 @@ vm.runInContext(
     // The page script fills these in on load (drawChips/drawGrid/drawJ and the two
     // top-level assignments). Grab the HTML it produced so the same markup can be
     // baked into index.html below.
-    + 'REVIEWS,SHOPS,shopsPage,'
+    + 'REVIEWS,SHOPS,shopsPage,bikesPage,'
     + 'home:{ddm:document.querySelector("#ddm").innerHTML,chips:document.querySelector("#chips").innerHTML,'
     + 'grid:document.querySelector("#grid").innerHTML,'
     + 'jchips:document.querySelector("#jchips").innerHTML,jbody:document.querySelector("#jbody").innerHTML}};',
   sandbox, { filename: 'index.html <script>' },
 );
-const { BIKES, IMGS, renderBike, bp, home, REVIEWS, SHOPS, shopsPage } = sandbox.__site;
+const { BIKES, IMGS, renderBike, bp, home, REVIEWS, SHOPS, shopsPage, bikesPage } = sandbox.__site;
 
 // ---------------------------------------------------------------- helpers
 const esc = s => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -168,8 +168,8 @@ for (const b of BIKES) {
     ...product,
     {
       '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'All bikes', item: `${SITE}/` },
-        { '@type': 'ListItem', position: 2, name: b.cat, item: `${SITE}/#cat-${b.cat.toLowerCase()}` },
+        { '@type': 'ListItem', position: 1, name: 'All bikes', item: `${SITE}/bikes/` },
+        { '@type': 'ListItem', position: 2, name: b.cat, item: `${SITE}/bikes/#${b.cat.toLowerCase()}` },
         { '@type': 'ListItem', position: 3, name: b.name, item: url },
       ],
     },
@@ -196,6 +196,63 @@ for (const b of BIKES) {
   writeFileSync(out, doc);
   urls.push(url);
 }
+
+// ---------------------------------------------------------------- /bikes/ hub
+// Every bike grouped by category, built from the same shell as where-to-buy.
+// It is written after the bike pages because the bikes/ folder is wiped above.
+{
+  const url = `${SITE}/bikes/`;
+  const body = bikesPage();
+  for (const b of BIKES) if (!body.includes(`href="/bikes/${b.id}/"`)) throw new Error(`bikesPage has no link to ${b.id}`);
+  const cats = [...new Set(BIKES.map(b => b.cat))];
+  const title = 'All ATUM bikes: mountain, road, gravel, hybrid and city | ATUM Bikes';
+  const desc = short(`The full ATUM range: ${BIKES.length} bikes across ${cats.length} categories (${cats.join(', ')}). `
+    + 'Compare models and open any bike for specs, sizes and colours.');
+  let doc = html;
+  doc = setTag(doc, /<title>[^<]*<\/title>/, `<title>${esc(title)}</title>`, '<title>');
+  doc = setTag(doc, /<meta name="description" content="[^"]*">/, `<meta name="description" content="${esc(desc)}">`, 'meta description');
+  doc = setTag(doc, /<meta property="og:title" content="[^"]*">/, '<meta property="og:title" content="All ATUM bikes">', 'og:title');
+  doc = setTag(doc, /<meta property="og:description" content="[^"]*">/, `<meta property="og:description" content="${esc(desc)}">`, 'og:description');
+  doc = setTag(doc, /<link rel="canonical" href="[^"]*">/, `<link rel="canonical" href="${url}">`, 'canonical');
+  doc = setTag(doc, /<meta property="og:url" content="[^"]*">/, `<meta property="og:url" content="${url}">`, 'og:url');
+  doc = setTag(doc, /<body>/, '<body data-static="1">', '<body>');
+  doc = setTag(doc, /<a class="skip" href="#top">/, '<a class="skip" href="#bikepage">', 'skip link');
+  doc = setTag(doc, /<main id="top">[\s\S]*?<\/main>\s*<main id="bikepage" hidden><\/main>/,
+    `${homeShell}\n<main id="bikepage">${body}</main>`, 'the two <main> elements');
+  const ld = [
+    { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'ATUM Bikes', item: `${SITE}/` },
+      { '@type': 'ListItem', position: 2, name: 'All bikes', item: url },
+    ] },
+    { '@context': 'https://schema.org', '@type': 'ItemList', name: 'ATUM bikes',
+      itemListElement: BIKES.map((b, i) => ({ '@type': 'ListItem', position: i + 1, url: `${SITE}/bikes/${b.id}/`, name: b.name })) },
+  ];
+  doc = doc.replace('</head>', () => `<script type="application/ld+json">${JSON.stringify(ld).replace(/</g, '\\u003c')}</script>\n</head>`);
+  writeFileSync(join(ROOT, 'bikes', 'index.html'), doc);
+  urls.unshift(url);
+  console.log(`Built /bikes/ with ${BIKES.length} bikes in ${cats.length} categories`);
+}
+
+// ---------------------------------------------------------------- old WordPress addresses
+// GitHub Pages cannot send a server redirect, so each old address gets a tiny page
+// that forwards at once. Google treats an instant meta refresh as a permanent
+// redirect. Found in Search Console > Page indexing > Not found (404), 21 Nov 2026.
+const OLD = { home: '/', mtb: '/bikes/#mtb' };
+for (const [from, to] of Object.entries(OLD)) {
+  const canon = SITE + to.replace(/#.*$/, '');
+  const page = `<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Moved | ATUM Bikes</title>
+<meta http-equiv="refresh" content="0; url=${to}">
+<link rel="canonical" href="${canon}">
+<script>location.replace(${JSON.stringify(to)})</script>
+</head><body><p>This page has moved to <a href="${to}">${SITE}${to}</a>.</p></body></html>
+`;
+  rmSync(join(ROOT, from), { recursive: true, force: true });
+  mkdirSync(join(ROOT, from), { recursive: true });
+  writeFileSync(join(ROOT, from, 'index.html'), page);
+}
+console.log(`Wrote ${Object.keys(OLD).length} redirects for old addresses: ${Object.keys(OLD).map(k => '/' + k + '/').join(', ')}`);
 
 // ---------------------------------------------------------------- smaller photo copies
 // The page asks for <name>-360.jpg and <name>-700.jpg next to every 1000 px photo in
