@@ -182,8 +182,6 @@ section{scroll-margin-top:84px}
 nav a.soc{padding:11px 6px}
 footer .soc{margin-left:8px}
 @media (min-width:640px){nav .ct.soc{display:inline-flex}}
-.ddx{display:none}
-@media (max-width:639px){.ddx{display:block}.ddx:first-of-type{border-top:1px solid var(--line);margin-top:6px;padding-top:6px}}
 footer a{display:inline-flex;align-items:center;min-height:44px}
 footer .soc{min-width:44px;justify-content:center;margin-left:0}
 @media (min-width:901px){.hero-art p{max-width:min(48ch,calc(100% - 660px));top:22px;font-size:18px}.hero-cta{position:absolute;left:0;top:150px;margin:0}}
@@ -261,12 +259,34 @@ body:has(#bpBar) footer{padding-bottom:110px}}
 @media (max-width:900px){.bp-top{grid-template-columns:minmax(0,1fr);gap:24px}}
 @media (max-width:420px){nav{gap:10px}.logo img{height:34px}}
 @media (max-width:360px){header .wrap{padding:0 16px}nav{gap:8px;font-size:13px}nav a,.ddb{padding:11px 3px}.logo img{height:28px}}
+/* Phone menu: under 640px the nav becomes a full-height panel opened by #mnb */
+.mbar{display:none}
+@media (max-width:639px){
+.mbar{display:flex;align-items:center;gap:4px;margin-right:-10px}
+.mwb{display:inline-flex;align-items:center;min-height:44px;padding:0 10px;font-size:15px;font-weight:600;color:var(--link);text-decoration:none;white-space:nowrap}
+.mnb{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;padding:0;background:none;border:0;border-radius:4px;color:var(--ink);cursor:pointer}
+.mnb:focus-visible{outline:3px solid var(--primary);outline-offset:2px}
+.mnb .i-close,header.mo .mnb .i-open{display:none}header.mo .mnb .i-close{display:block}
+header nav{display:none;position:fixed;left:0;right:0;bottom:0;top:calc(61px + env(safe-area-inset-top,0px));z-index:30;flex-direction:row;flex-wrap:wrap;align-content:flex-start;gap:0;padding:16px 24px calc(32px + env(safe-area-inset-bottom,0px));background:var(--bg);overflow-y:auto;overscroll-behavior:contain;font-size:17px}
+header.mo nav{display:flex}
+header nav>*{flex:0 0 100%}
+header nav a,header nav .ct{display:flex;align-items:center;min-height:48px;padding:0;border-bottom:1px solid var(--line);color:var(--ink);font-size:17px}
+.dd{padding:0;margin:0 0 20px}
+.dd::before{content:"Bikes";display:block;padding:4px 0 8px;font-size:13px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.ddb{display:none}
+.ddm,.dd:hover .ddm{display:block;position:static;min-width:0;padding:0;background:none;border:0;border-radius:0;box-shadow:none}
+.ddm a{min-height:48px;align-items:center;padding:0;border-radius:0;font-size:17px}
+header nav a:hover,.ddm a:hover,.ddm a:focus-visible{background:none;color:var(--link)}
+.ddm small{font-size:15px}
+header nav a.soc,header nav .ct.soc{flex:0 0 auto;display:inline-flex;justify-content:center;min-width:44px;min-height:44px;margin:20px 8px 0 0;padding:0;border:0;color:var(--ink)}
+header nav .ct:not(.soc)+.soc{margin-left:-12px}
+}
 </style>
 </head>
 <body>
 <a class="skip" href="#top">Skip to content</a>
 <header><div class="wrap"><a class="logo" href="/#top" aria-label="ATUM home"><img loading="lazy" src="/images/img02-2770991a.png" alt="ATUM" width="380" height="149"></a>
-<nav aria-label="Main"><div class="dd" id="dd"><button class="ddb" id="ddb" aria-expanded="false" aria-controls="ddm" aria-haspopup="true">Bikes <span aria-hidden="true">▾</span></button><ul class="ddm" id="ddm"><!--pr:ddm--><li><a href="/#cat-all">All bikes<small>12</small></a></li><li><a href="/#cat-mtb">MTB<small>5</small></a></li><li><a href="/#cat-road">Road<small>3</small></a></li><li><a href="/#cat-gravel">Gravel<small>1</small></a></li><li><a href="/#cat-hybrid">Hybrid<small>2</small></a></li><li><a href="/#cat-city">City<small>1</small></a></li><li class="ddx"><a href="/where-to-buy/">Where to buy</a></li><li class="ddx"><a href="/#contact">Contact</a></li><li class="ddx"><a href="https://www.facebook.com/atumbikesofficial/" target="_blank" rel="noopener">Facebook</a></li><li class="ddx"><a href="https://www.instagram.com/atumbikesofficial/" target="_blank" rel="noopener">Instagram</a></li><!--/pr:ddm--></ul></div><a href="/#journey">Your ride</a><a class="ct" href="/where-to-buy/">Where to buy</a><a class="ct" href="/#contact">Contact</a><a class="ct soc" href="https://www.facebook.com/atumbikesofficial/" target="_blank" rel="noopener" aria-label="ATUM on Facebook"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M13.5 22v-8h2.7l.4-3.2h-3.1V8.8c0-.9.3-1.6 1.6-1.6h1.7V4.4c-.3 0-1.3-.1-2.5-.1-2.5 0-4.1 1.5-4.1 4.2v2.3H7.4V14h2.8v8h3.3z"/></svg></a><a class="ct soc" href="https://www.instagram.com/atumbikesofficial/" target="_blank" rel="noopener" aria-label="ATUM on Instagram"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 7.3A4.7 4.7 0 1 0 12 16.7 4.7 4.7 0 1 0 12 7.3zm0 7.7a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm6-7.9a1.1 1.1 0 1 1-2.2 0 1.1 1.1 0 0 1 2.2 0zM12 2.2c-2.7 0-3 0-4 .1-1.1 0-1.8.2-2.4.5a4.9 4.9 0 0 0-2.8 2.8c-.3.6-.4 1.3-.5 2.4-.1 1-.1 1.3-.1 4s0 3 .1 4c0 1.1.2 1.8.5 2.4a4.9 4.9 0 0 0 2.8 2.8c.6.3 1.3.4 2.4.5 1 .1 1.3.1 4 .1s3 0 4-.1c1.1 0 1.8-.2 2.4-.5a4.9 4.9 0 0 0 2.8-2.8c.3-.6.4-1.3.5-2.4.1-1 .1-1.3.1-4s0-3-.1-4c0-1.1-.2-1.8-.5-2.4a4.9 4.9 0 0 0-2.8-2.8c-.6-.3-1.3-.4-2.4-.5-1-.1-1.3-.1-4-.1zm0 1.8c2.7 0 3 0 4 .1.9 0 1.5.2 1.8.3.5.2.8.4 1.1.7.3.3.6.7.7 1.1.1.3.3.9.3 1.8.1 1 .1 1.3.1 4s0 3-.1 4c0 .9-.2 1.5-.3 1.8-.2.5-.4.8-.7 1.1-.3.3-.7.6-1.1.7-.3.1-.9.3-1.8.3-1 .1-1.3.1-4 .1s-3 0-4-.1c-.9 0-1.5-.2-1.8-.3-.5-.2-.8-.4-1.1-.7-.3-.3-.6-.7-.7-1.1-.1-.3-.3-.9-.3-1.8-.1-1-.1-1.3-.1-4s0-3 .1-4c0-.9.2-1.5.3-1.8.2-.5.4-.8.7-1.1.3-.3.7-.6 1.1-.7.3-.1.9-.3 1.8-.3 1-.1 1.3-.1 4-.1z"/></svg></a></nav></div></header>
+<nav aria-label="Main" id="mainnav"><div class="dd" id="dd"><button class="ddb" id="ddb" aria-expanded="false" aria-controls="ddm" aria-haspopup="true">Bikes <span aria-hidden="true">▾</span></button><ul class="ddm" id="ddm"><!--pr:ddm--><li><a href="/#cat-all">All bikes<small>12</small></a></li><li><a href="/#cat-mtb">MTB<small>5</small></a></li><li><a href="/#cat-road">Road<small>3</small></a></li><li><a href="/#cat-gravel">Gravel<small>1</small></a></li><li><a href="/#cat-hybrid">Hybrid<small>2</small></a></li><li><a href="/#cat-city">City<small>1</small></a></li><!--/pr:ddm--></ul></div><a href="/#journey">Your ride</a><a class="ct" href="/where-to-buy/">Where to buy</a><a class="ct" href="/#contact">Contact</a><a class="ct soc" href="https://www.facebook.com/atumbikesofficial/" target="_blank" rel="noopener" aria-label="ATUM on Facebook"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M13.5 22v-8h2.7l.4-3.2h-3.1V8.8c0-.9.3-1.6 1.6-1.6h1.7V4.4c-.3 0-1.3-.1-2.5-.1-2.5 0-4.1 1.5-4.1 4.2v2.3H7.4V14h2.8v8h3.3z"/></svg></a><a class="ct soc" href="https://www.instagram.com/atumbikesofficial/" target="_blank" rel="noopener" aria-label="ATUM on Instagram"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 7.3A4.7 4.7 0 1 0 12 16.7 4.7 4.7 0 1 0 12 7.3zm0 7.7a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm6-7.9a1.1 1.1 0 1 1-2.2 0 1.1 1.1 0 0 1 2.2 0zM12 2.2c-2.7 0-3 0-4 .1-1.1 0-1.8.2-2.4.5a4.9 4.9 0 0 0-2.8 2.8c-.3.6-.4 1.3-.5 2.4-.1 1-.1 1.3-.1 4s0 3 .1 4c0 1.1.2 1.8.5 2.4a4.9 4.9 0 0 0 2.8 2.8c.6.3 1.3.4 2.4.5 1 .1 1.3.1 4 .1s3 0 4-.1c1.1 0 1.8-.2 2.4-.5a4.9 4.9 0 0 0 2.8-2.8c.3-.6.4-1.3.5-2.4.1-1 .1-1.3.1-4s0-3-.1-4c0-1.1-.2-1.8-.5-2.4a4.9 4.9 0 0 0-2.8-2.8c-.6-.3-1.3-.4-2.4-.5-1-.1-1.3-.1-4-.1zm0 1.8c2.7 0 3 0 4 .1.9 0 1.5.2 1.8.3.5.2.8.4 1.1.7.3.3.6.7.7 1.1.1.3.3.9.3 1.8.1 1 .1 1.3.1 4s0 3-.1 4c0 .9-.2 1.5-.3 1.8-.2.5-.4.8-.7 1.1-.3.3-.7.6-1.1.7-.3.1-.9.3-1.8.3-1 .1-1.3.1-4 .1s-3 0-4-.1c-.9 0-1.5-.2-1.8-.3-.5-.2-.8-.4-1.1-.7-.3-.3-.6-.7-.7-1.1-.1-.3-.3-.9-.3-1.8-.1-1-.1-1.3-.1-4s0-3 .1-4c0-.9.2-1.5.3-1.8.2-.5.4-.8.7-1.1.3-.3.7-.6 1.1-.7.3-.1.9-.3 1.8-.3 1-.1 1.3-.1 4-.1z"/></svg></a></nav><div class="mbar"><a class="mwb" href="/where-to-buy/">Where to buy</a><button class="mnb" id="mnb" type="button" aria-expanded="false" aria-controls="mainnav" aria-label="Menu"><svg class="i-open" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><svg class="i-close" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div></div></header>
 
 <main id="top">
 <div class="wrap hero">
@@ -674,13 +694,19 @@ function route(){const h=decodeURIComponent(location.hash.slice(1)),home=$('#top
  const was=home.hidden,c=CATH[h];home.hidden=false;bp.hidden=true;document.title=T0;
  if(c){cat=c;drawChips();drawGrid();document.getElementById('bikes').scrollIntoView()}
  else{const t=h&&document.getElementById(h);if(t)t.scrollIntoView();else if(was)window.scrollTo(0,0)}}
-$('#ddm').innerHTML=[['All bikes','cat-all'],['MTB','cat-mtb'],['Road','cat-road'],['Gravel','cat-gravel'],['Hybrid','cat-hybrid'],['City','cat-city']].map(([t,h])=>`<li><a href="/#${h}">${t}<small>${h==='cat-all'?BIKES.length:BIKES.filter(b=>b.cat===CATH[h]).length}</small></a></li>`).join('')+`<li class="ddx"><a href="/where-to-buy/">Where to buy</a></li><li class="ddx"><a href="/#contact">Contact</a></li><li class="ddx"><a href="https://www.facebook.com/atumbikesofficial/" target="_blank" rel="noopener">Facebook</a></li><li class="ddx"><a href="https://www.instagram.com/atumbikesofficial/" target="_blank" rel="noopener">Instagram</a></li>`;
+$('#ddm').innerHTML=[['All bikes','cat-all'],['MTB','cat-mtb'],['Road','cat-road'],['Gravel','cat-gravel'],['Hybrid','cat-hybrid'],['City','cat-city']].map(([t,h])=>`<li><a href="/#${h}">${t}<small>${h==='cat-all'?BIKES.length:BIKES.filter(b=>b.cat===CATH[h]).length}</small></a></li>`).join('');
 const dd=$('#dd'),ddb=$('#ddb');
 const setDD=o=>{dd.classList.toggle('open',o);ddb.setAttribute('aria-expanded',o)};
 ddb.onclick=e=>{e.stopPropagation();setDD(!dd.classList.contains('open'))};
 $('#ddm').onclick=()=>setDD(false);
 document.addEventListener('click',e=>{if(!dd.contains(e.target))setDD(false)});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&dd.classList.contains('open')){setDD(false);ddb.focus()}});
+const hdr=document.querySelector('header'),mnb=$('#mnb');
+const setMN=o=>{hdr.classList.toggle('mo',o);mnb.setAttribute('aria-expanded',o);mnb.setAttribute('aria-label',o?'Close menu':'Menu');document.documentElement.style.overflow=o?'hidden':''};
+mnb.onclick=()=>setMN(!hdr.classList.contains('mo'));
+$('#mainnav').addEventListener('click',e=>{if(e.target.closest('a'))setMN(false)});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&hdr.classList.contains('mo')){setMN(false);mnb.focus()}});
+addEventListener('resize',()=>{if(innerWidth>=640&&hdr.classList.contains('mo'))setMN(false)});
 addEventListener('hashchange',()=>{setDD(false);route()});
 let curG=null;
 function openGal(id,i){const b=BIKES.find(x=>x.id===id),n=b.photos.length;i=(i+n)%n;curG={id,i};

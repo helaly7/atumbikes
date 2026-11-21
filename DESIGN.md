@@ -95,6 +95,9 @@ Borders are 1px `--line`; the selected swatch and chip use 1.5–2px `--ink`.
   as 80×28 badges (black for Shimano/Tektro/Kenda, white for ATUM/KMC).
 - **Navigation**: text links in muted, current in ink; "Bikes" dropdown lists categories;
   social icons 20px after Contact on ≥ 640px; closes on navigation.
+  Under 640px the header shows logo, "Where to buy" and a ☰ button; ☰ opens the nav as a
+  full-height panel (BIKES label + categories, then Your ride / Where to buy / Contact, then
+  social icons), 48px rows at 17px. Closes on link tap, ✕, Escape or widening past 640px.
 - **Footer**: hairline top, two muted 15px lines, email and social icons, tap targets 44px.
 - **Lightbox**: navy 92 % backdrop, image with `--shadow-1`, close on Escape and backdrop click.
 - **Forms** (when added): 44px inputs, 1px line border, radius 4, focus ring as buttons;
