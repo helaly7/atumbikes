@@ -114,7 +114,7 @@ export function buildArabic({ html, BIKES, IMGS, SITE, logoSrc }) {
   const preconnect = [...html.matchAll(/<link rel="preconnect"[^>]*>/g)].map(m => m[0]).join('\n');
   const arFonts = '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap">';
   const contact = (html.match(/<section id="contact">[\s\S]*?<\/section>/) || [''])[0];
-  const svgOf = name => (contact.match(new RegExp(`(<svg[\\s\\S]*?<\\/svg>)<span class="sr">${name}`)) || [, ''])[1];
+  const svgOf = name => (contact.match(new RegExp(`(<svg(?:(?!<svg)[\\s\\S])*?<\\/svg>)<span class="sr">${name}`)) || [, ''])[1];
 
   const img = (i, alt, sizes, eager) => {
     const p = IMGS[i];
