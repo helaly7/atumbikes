@@ -1,6 +1,6 @@
 // Arabic home page at /ar/ — written by build-bike-pages.mjs.
 //
-// It is a static page (no script): RTL, Arabic font, every bike grouped by
+// Static page with one small script (the hero slideshow, same bikes and order as the English home): RTL, Arabic font, every bike grouped by
 // category with an Arabic description, linking to the English bike pages for
 // full specs. Bike names, photos, sizes and order come from BIKES in index.html,
 // so a new or renamed bike shows up here on the next build. Only the Arabic
@@ -84,11 +84,14 @@ h1,h2,h3{line-height:1.3;letter-spacing:0;font-stretch:normal}
 .ar-nav a:hover{color:var(--ink)}
 .ar-nav .lang{border:1px solid var(--line);border-radius:999px;padding:6px 12px;color:var(--ink);font-family:'Instrument Sans',system-ui,sans-serif;font-size:14px}
 @media (max-width:639px){.ar-nav{gap:12px;font-size:15px}.ar-nav .hide-s{display:none}}
-.ar-hero{padding:56px 0 8px}
-.ar-hero h1{font-size:clamp(34px,6vw,64px);font-weight:800}
-.ar-hero p{color:var(--muted);max-width:52ch;font-size:18px;margin:18px 0 0}
-.ar-hero .btn{margin-top:24px}
-.ar-hero img{display:block;width:100%;max-height:440px;object-fit:cover;border-radius:6px;margin-top:32px}
+.hero h1{line-height:1.2;font-weight:800;letter-spacing:0;font-stretch:normal}
+/* Mirror the English hero: text and button on the right, slideshow on the left */
+.hero-art p{left:auto;right:0}
+@media (min-width:901px){.hero-cta{left:auto;right:0}}
+.hs,.hs-dots{margin-left:0;margin-right:auto}
+.hs-dots{justify-content:flex-start}
+.hs-cap small{letter-spacing:0;text-transform:none;font-size:14px}
+.hs-cap #hsName{direction:ltr;unicode-bidi:isolate}
 .ar-cats{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 8px}
 .ar-cats a{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border:1px solid var(--line);border-radius:999px;color:var(--ink);text-decoration:none}
 .ar-cats a:hover{border-color:var(--ink)}
@@ -138,7 +141,22 @@ export function buildArabic({ html, BIKES, IMGS, SITE, logoSrc }) {
     return `<div class="ar-cat" id="cat-${c.toLowerCase()}"><h3>${CAT[c][0]} <small>${list.length} ${list.length > 2 && list.length < 11 ? 'موديلات' : 'موديل'}</small></h3><div class="grid">${list.map(card).join('')}</div></div>`;
   }).join('\n');
 
-  const heroBike = BIKES.find(b => b.id === 'storm') || BIKES[0];
+  // Hero slideshow: same bikes and order as the English home page.
+  const HO = ['pulse', 'gravity', 'phantom', 'gravel'];
+  const HB = BIKES.filter(b => b.photos && b.photos.length)
+    .sort((p, q) => { const i = HO.indexOf(p.id), j = HO.indexOf(q.id); return (i < 0 ? HO.length : i) - (j < 0 ? HO.length : j); });
+  const catOne = c => (CAT[c] ? CAT[c][0].replace('دراجات', 'دراجة') : c);
+  const hb0 = HB[0];
+  const slides = `<a class="hs" id="hsLink" href="/bikes/${hb0.id}/"><img class="hs-a on" src="${IMGS[hb0.photos[0]]}" alt="ATUM ${esc(hb0.name)}"><img class="hs-b" alt=""><span class="hs-cap"><span id="hsName">${esc(hb0.name)}</span><small id="hsCat">${catOne(hb0.cat)}</small></span></a>`
+    + `<div class="hs-dots" role="tablist" aria-label="دراجات مختارة">${HB.map((b, i) => `<button role="tab" aria-label="${esc(b.name)}" aria-selected="${i === 0}" data-i="${i}"></button>`).join('')}</div>`
+    + `<script>(function(){const HB=${JSON.stringify(HB.map(b => [b.id, b.name, catOne(b.cat), IMGS[b.photos[0]]]))};`
+    + `const el=document.getElementById('heroBike'),A=el.querySelector('.hs-a'),B=el.querySelector('.hs-b'),dots=[...el.querySelectorAll('.hs-dots button')];let front=A,back=B,hi=0,tm;`
+    + `function show(i){hi=(i+HB.length)%HB.length;const b=HB[hi];back.src=b[3];back.alt='ATUM '+b[1];back.onload=()=>{back.classList.add('on');front.classList.remove('on');[front,back]=[back,front]};`
+    + `document.getElementById('hsName').textContent=b[1];document.getElementById('hsCat').textContent=b[2];document.getElementById('hsLink').href='/bikes/'+b[0]+'/';dots.forEach((d,n)=>d.setAttribute('aria-selected',n===hi))}`
+    + `const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;function stop(){clearInterval(tm)}function start(){if(rm)return;stop();tm=setInterval(()=>show(hi+1),3000)}`
+    + `el.onmouseenter=stop;el.onmouseleave=start;el.addEventListener('focusin',stop);el.addEventListener('focusout',start);`
+    + `el.querySelector('.hs-dots').onclick=e=>{const i=e.target.dataset.i;if(i!=null){show(+i);start()}};`
+    + `document.addEventListener('visibilitychange',()=>document.hidden?stop():start());start()})()<\/script>`;
   const url = SITE + AR_PATH;
   const title = 'دراجات أتوم ATUM | دراجات جبلية وطريق وهايبرد بمكونات شيمانو';
   const desc = `أتوم ATUM: ${BIKES.length} موديل دراجات جبلية وطريق وجرافل وهايبرد ومدينة بمكونات شيمانو وضمان مدى الحياة على الإطار. شوف المواصفات والمقاسات والألوان وأماكن البيع في مصر.`;
@@ -181,11 +199,9 @@ ${style}
 <nav class="ar-nav" aria-label="القائمة الرئيسية"><a href="#bikes">الدراجات</a><a href="/where-to-buy/">أماكن البيع</a><a class="hide-s" href="#contact">تواصل معنا</a><a class="lang" href="/" hreflang="en" lang="en">English</a></nav></div></header>
 
 <main id="top">
-<div class="wrap ar-hero">
-<h1>أتوم | دراجات رائعة لناس رائعين.</h1>
-<p>دراجات تجمع بين القوة والأناقة والدقة، مصنوعة بمكونات شيمانو، لطرق الجبال وشوارع المدينة وكل ما بينهما. ضمان محدود مدى الحياة على إطارات أتوم.</p>
-<a class="btn" href="#bikes">تصفّح الدراجات</a>
-${heroBike.photos ? img(heroBike.photos[0], `${heroBike.name} — دراجة جبلية`, '(max-width:1200px) 92vw, 1100px', true) : ''}
+<div class="wrap hero">
+<h1>أتوم |<br>دراجات رائعة<br>لناس رائعين.</h1>
+<div class="hero-art"><p>دراجات تجمع بين القوة والأناقة والدقة، مصنوعة بمكونات شيمانو، لطرق الجبال وشوارع المدينة وكل ما بينهما.</p><a class="btn hero-cta" href="#bikes">تصفّح الدراجات</a><div id="heroBike">${slides}</div></div>
 </div>
 
 <section id="bikes"><div class="wrap">

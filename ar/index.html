@@ -296,11 +296,14 @@ h1,h2,h3{line-height:1.3;letter-spacing:0;font-stretch:normal}
 .ar-nav a:hover{color:var(--ink)}
 .ar-nav .lang{border:1px solid var(--line);border-radius:999px;padding:6px 12px;color:var(--ink);font-family:'Instrument Sans',system-ui,sans-serif;font-size:14px}
 @media (max-width:639px){.ar-nav{gap:12px;font-size:15px}.ar-nav .hide-s{display:none}}
-.ar-hero{padding:56px 0 8px}
-.ar-hero h1{font-size:clamp(34px,6vw,64px);font-weight:800}
-.ar-hero p{color:var(--muted);max-width:52ch;font-size:18px;margin:18px 0 0}
-.ar-hero .btn{margin-top:24px}
-.ar-hero img{display:block;width:100%;max-height:440px;object-fit:cover;border-radius:6px;margin-top:32px}
+.hero h1{line-height:1.2;font-weight:800;letter-spacing:0;font-stretch:normal}
+/* Mirror the English hero: text and button on the right, slideshow on the left */
+.hero-art p{left:auto;right:0}
+@media (min-width:901px){.hero-cta{left:auto;right:0}}
+.hs,.hs-dots{margin-left:0;margin-right:auto}
+.hs-dots{justify-content:flex-start}
+.hs-cap small{letter-spacing:0;text-transform:none;font-size:14px}
+.hs-cap #hsName{direction:ltr;unicode-bidi:isolate}
 .ar-cats{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 8px}
 .ar-cats a{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border:1px solid var(--line);border-radius:999px;color:var(--ink);text-decoration:none}
 .ar-cats a:hover{border-color:var(--ink)}
@@ -323,11 +326,9 @@ footer .soc{margin-left:0;margin-right:8px}
 <nav class="ar-nav" aria-label="القائمة الرئيسية"><a href="#bikes">الدراجات</a><a href="/where-to-buy/">أماكن البيع</a><a class="hide-s" href="#contact">تواصل معنا</a><a class="lang" href="/" hreflang="en" lang="en">English</a></nav></div></header>
 
 <main id="top">
-<div class="wrap ar-hero">
-<h1>أتوم | دراجات رائعة لناس رائعين.</h1>
-<p>دراجات تجمع بين القوة والأناقة والدقة، مصنوعة بمكونات شيمانو، لطرق الجبال وشوارع المدينة وكل ما بينهما. ضمان محدود مدى الحياة على إطارات أتوم.</p>
-<a class="btn" href="#bikes">تصفّح الدراجات</a>
-<img src="/images/img12-58c83c09.jpg" srcset="/images/img12-58c83c09-360.jpg 360w, /images/img12-58c83c09-700.jpg 700w, /images/img12-58c83c09.jpg 1000w" sizes="(max-width:1200px) 92vw, 1100px" alt="Storm 29″ v3 — دراجة جبلية">
+<div class="wrap hero">
+<h1>أتوم |<br>دراجات رائعة<br>لناس رائعين.</h1>
+<div class="hero-art"><p>دراجات تجمع بين القوة والأناقة والدقة، مصنوعة بمكونات شيمانو، لطرق الجبال وشوارع المدينة وكل ما بينهما.</p><a class="btn hero-cta" href="#bikes">تصفّح الدراجات</a><div id="heroBike"><a class="hs" id="hsLink" href="/bikes/pulse/"><img class="hs-a on" src="/images/img62-67fae3d1.jpg" alt="ATUM Pulse v2"><img class="hs-b" alt=""><span class="hs-cap"><span id="hsName">Pulse v2</span><small id="hsCat">دراجة طريق</small></span></a><div class="hs-dots" role="tablist" aria-label="دراجات مختارة"><button role="tab" aria-label="Pulse v2" aria-selected="true" data-i="0"></button><button role="tab" aria-label="Gravity 29″ v3" aria-selected="false" data-i="1"></button><button role="tab" aria-label="Phantom T (Tiagra)" aria-selected="false" data-i="2"></button><button role="tab" aria-label="Gravel v1" aria-selected="false" data-i="3"></button><button role="tab" aria-label="Eclipse v3" aria-selected="false" data-i="4"></button><button role="tab" aria-label="Eclipse X v2" aria-selected="false" data-i="5"></button><button role="tab" aria-label="Active 26″ v1" aria-selected="false" data-i="6"></button><button role="tab" aria-label="Storm 29″ v3" aria-selected="false" data-i="7"></button><button role="tab" aria-label="Alpha 29″ v1" aria-selected="false" data-i="8"></button><button role="tab" aria-label="Evo 29″ v2" aria-selected="false" data-i="9"></button><button role="tab" aria-label="Evo Pro 29″ v1" aria-selected="false" data-i="10"></button><button role="tab" aria-label="Phantom S (Sora)" aria-selected="false" data-i="11"></button></div><script>(function(){const HB=[["pulse","Pulse v2","دراجة طريق","/images/img62-67fae3d1.jpg"],["gravity","Gravity 29″ v3","دراجة جبلية","/images/img66-121ae3b7.jpg"],["phantom","Phantom T (Tiagra)","دراجة طريق","/images/img20-448f10e4.jpg"],["gravel","Gravel v1","دراجة جرافل","/images/img43-f8fc5bba.jpg"],["eclipse","Eclipse v3","دراجة هايبرد","/images/img03-88487896.jpg"],["eclipse-x","Eclipse X v2","دراجة هايبرد","/images/img32-ec319512.jpg"],["active","Active 26″ v1","دراجة مدينة","/images/img39-92995889.jpg"],["storm","Storm 29″ v3","دراجة جبلية","/images/img12-58c83c09.jpg"],["alpha","Alpha 29″ v1","دراجة جبلية","/images/img15-e7749408.jpg"],["evo","Evo 29″ v2","دراجة جبلية","/images/img19-c546e9c5.jpg"],["evo-pro","Evo Pro 29″ v1","دراجة جبلية","/images/img45-3d2ae1eb.jpg"],["phantom-s","Phantom S (Sora)","دراجة طريق","/images/img58-3bd3b6c1.jpg"]];const el=document.getElementById('heroBike'),A=el.querySelector('.hs-a'),B=el.querySelector('.hs-b'),dots=[...el.querySelectorAll('.hs-dots button')];let front=A,back=B,hi=0,tm;function show(i){hi=(i+HB.length)%HB.length;const b=HB[hi];back.src=b[3];back.alt='ATUM '+b[1];back.onload=()=>{back.classList.add('on');front.classList.remove('on');[front,back]=[back,front]};document.getElementById('hsName').textContent=b[1];document.getElementById('hsCat').textContent=b[2];document.getElementById('hsLink').href='/bikes/'+b[0]+'/';dots.forEach((d,n)=>d.setAttribute('aria-selected',n===hi))}const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;function stop(){clearInterval(tm)}function start(){if(rm)return;stop();tm=setInterval(()=>show(hi+1),3000)}el.onmouseenter=stop;el.onmouseleave=start;el.addEventListener('focusin',stop);el.addEventListener('focusout',start);el.querySelector('.hs-dots').onclick=e=>{const i=e.target.dataset.i;if(i!=null){show(+i);start()}};document.addEventListener('visibilitychange',()=>document.hidden?stop():start());start()})()</script></div></div>
 </div>
 
 <section id="bikes"><div class="wrap">
