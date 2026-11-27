@@ -18,15 +18,21 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import vm from 'node:vm';
 import { createRequire } from 'node:module';
-import { buildArabic, AR_PATH } from './ar.mjs';
+import { LOCALES, buildLocale, langMenu, hreflangLinks } from './locales.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SITE = 'https://atumbikes.com';
 let html = readFileSync(join(ROOT, 'index.html'), 'utf8');
-// hreflang belongs on the home page only (bike pages have no Arabic twin yet), so
+// hreflang belongs on the home page only (bike pages have no translated twin yet), so
 // strip it before any page is copied from index.html and add it back at the end.
-const HREFLANG = `<link rel="alternate" hreflang="en" href="${SITE}/">\n<link rel="alternate" hreflang="ar" href="${SITE}${AR_PATH}">\n<link rel="alternate" hreflang="x-default" href="${SITE}/">\n`;
+const HREFLANG = hreflangLinks(SITE);
 html = html.replace(/<link rel="alternate" hreflang="[^"]*" href="[^"]*">\n/g, '');
+// Language menu in the header of every English page (from LOCALES in tools/locales.mjs).
+{
+  const re = /(<!--pr:lang-->)[\s\S]*?(<!--\/pr:lang-->)/;
+  if (!re.test(html)) throw new Error('index.html: no <!--pr:lang--> markers');
+  html = html.replace(re, (_, a, b) => a + langMenu('en') + b);
+}
 
 // ---------------------------------------------------------------- run the page script with a stub DOM
 const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(m => m[1]);
@@ -327,14 +333,17 @@ const today = new Date().toISOString().slice(0, 10);
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url><loc>${SITE}/</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq></url>
-<url><loc>${SITE}${AR_PATH}</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq></url>
-${urls.map(u => `<url><loc>${u}</loc><lastmod>${today}</lastmod><changefreq>monthly</changefreq></url>`).join('\n')}
+${LOCALES.map(L => `<url><loc>${SITE}${L.path}</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq></url>\n`).join('')}${urls.map(u => `<url><loc>${u}</loc><lastmod>${today}</lastmod><changefreq>monthly</changefreq></url>`).join('\n')}
 </urlset>
 `;
 writeFileSync(join(ROOT, 'sitemap.xml'), sitemap);
-// ---------------------------------------------------------------- Arabic home page
-mkdirSync(join(ROOT, 'ar'), { recursive: true });
-writeFileSync(join(ROOT, 'ar', 'index.html'), buildArabic({ html, BIKES, IMGS, SITE, logoSrc }));
+// ---------------------------------------------------------------- translated home pages
+for (const L of LOCALES) {
+  const dir = join(ROOT, L.path.replace(/\//g, ''));
+  mkdirSync(dir, { recursive: true });
+  writeFileSync(join(dir, 'index.html'), buildLocale(L, { html, BIKES, IMGS, SITE, logoSrc }));
+}
+console.log(`Built translated home pages: ${LOCALES.map(L => L.path).join(', ')}`);
 html = html.replace('<link rel="canonical"', HREFLANG + '<link rel="canonical"');
 writeFileSync(join(ROOT, 'index.html'), html);
 if (!existsSync(join(ROOT, 'CNAME'))) console.warn('note: no CNAME file found');
