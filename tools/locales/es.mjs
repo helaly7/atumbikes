@@ -5,7 +5,9 @@ export default {
   code: 'es', path: '/es/', dir: 'ltr', ogLocale: 'es_ES',
   name: 'Español', short: 'ES',
   fontLink: '',
-  css: '',
+  css: `
+.hero h1{font-size:clamp(22px,7.4vw,94px)}
+`,
   cat: { MTB: 'Bicicletas de montaña', Road: 'Bicicletas de carretera', Gravel: 'Bicicletas gravel', Hybrid: 'Bicicletas híbridas', City: 'Bicicletas urbanas' },
   catOne: c => c.replace('Bicicletas', 'Bicicleta').replace(/as$/, 'a'),
   size: s => s,
@@ -18,7 +20,7 @@ export default {
   listName: 'Bicicletas ATUM',
   skip: 'Saltar al contenido', home: 'Inicio de ATUM', navLabel: 'Menú principal', langLabel: 'Idioma',
   nav: { bikes: 'Bicicletas', buy: 'Dónde comprar', contact: 'Contacto' },
-  h1: 'ATUM |<br>Grandes bicis<br>para grandes personas.',
+  h1: 'ATUM | Grandes bicis<br>para grandes personas.',
   heroP: 'Bicicletas que combinan fuerza, estilo y precisión, montadas con componentes Shimano, para senderos de montaña, calles de ciudad y todo lo que hay entre medias.',
   heroCta: 'Ver las bicicletas', featured: 'Bicicletas destacadas',
   rangeH: 'La gama', rangeLede: 'Elige una categoría y abre cualquier bici para ver la ficha técnica, las fotos y los colores.', catsLabel: 'Categorías',

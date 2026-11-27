@@ -9,7 +9,7 @@ export default {
 :root{--disp:'Cairo','Archivo',Arial,sans-serif;--body:'Cairo','Instrument Sans',system-ui,Arial,sans-serif}
 body{font-family:var(--body);line-height:1.75}
 h1,h2,h3{line-height:1.3;letter-spacing:0;font-stretch:normal}
-.hero h1{line-height:1.2;font-weight:800}
+.hero h1{line-height:1.2;font-weight:800;font-size:clamp(24px,8vw,104px)}
 /* Mirror the English hero: text and button on the right, slideshow on the left */
 .hero-art p{left:auto;right:0}
 @media (min-width:901px){.hero-cta{left:auto;right:0}}
@@ -35,7 +35,7 @@ footer .soc{margin-left:0;margin-right:8px}
   listName: 'دراجات أتوم',
   skip: 'تخطَّ إلى المحتوى', home: 'الصفحة الرئيسية لأتوم', navLabel: 'القائمة الرئيسية', langLabel: 'اللغة',
   nav: { bikes: 'الدراجات', buy: 'أماكن البيع', contact: 'تواصل معنا' },
-  h1: 'أتوم |<br>دراجات رائعة<br>لناس رائعين.',
+  h1: 'أتوم | دراجات رائعة<br>لناس رائعين.',
   heroP: 'دراجات تجمع بين القوة والأناقة والدقة، مصنوعة بمكونات شيمانو، لطرق الجبال وشوارع المدينة وكل ما بينهما.',
   heroCta: 'تصفّح الدراجات', featured: 'دراجات مختارة',
   rangeH: 'تشكيلة أتوم', rangeLede: 'اختر الفئة، ثم افتح أي دراجة لترى كل المواصفات والصور والألوان.', catsLabel: 'الفئات',
